@@ -4,6 +4,7 @@
 var Game = {
     "height": window.innerHeight,
     "width" : window.innerWidth,
+    "resistance": 0.1,
     "assets" : [],
     "ready" : false,
     "grid" : false,
@@ -72,63 +73,11 @@ class Character {
         this.height = data.height;
         this.direction = data.direction;
         this.speed = data.speed;
+        this.angspeed = data.angspeed;
         this.maxspeed = data.maxspeed;
         this.minspeed = data.minspeed;
-        this.move = (direction, speed) => {
-            this.speed = speed;
-            this.direction = direction;
-            console.log("speed:"+this.speed);
-            switch (direction) {
-                case 1:
-                    //up
-                    this.y = this.y - speed;
-                    break;
-                case 2:
-                    //up and right
-                    this.y = this.y - speed;
-                    this.x = this.x + speed;
-                    break;
-                case 3:
-                    //right
-                    this.x = this.x + speed;
-                    break;
-                case 4:
-                    //right and down
-                    this.x = this.x + speed;
-                    this.y = this.y + speed;
-                    break;
-                case 5:
-                    //down
-                    this.y = this.y + speed;
-                    break;
-                case 6:
-                    //down and left
-                    this.y = this.y + speed;
-                    this.x = this.x - speed;
-                    break;
-                case 7:
-                    //left
-                    this.x = this.x - speed;
-                    break;
-                case 8:
-                    //left and up
-                    this.x = this.x - speed;
-                    this.y = this.y - speed;
-                    break;
-                default:
-                    break;
-            }
-        }
         this.mass = data.mass;
         this.acceleration = data.acceleration;
-        this.applyforce = (direction, amount) => {
-            if (this.speed < this.maxspeed && this.speed >= this.minspeed){
-                this.speed = this.speed + (amount/this.mass);
-            }
-            this.move(direction, this.speed);
-            this.acceleration = amount/this.mass;
-            console.log(direction+" acceleration="+this.acceleration);
-        }
         this.link = data.link;
         this.image = new Image();
         this.physics = data.physics;
@@ -137,6 +86,68 @@ class Character {
         this.massphysics = data.massphysics;
         this.input = data.input;
         Game.assets.push(this);
+        this.getvector = (direction, magnitude) => {
+            //choose quadrant based on the canvas position style
+            if (direction >= 0 && direction < 90 || direction == 360){
+                var x = magnitude * Math.cos((90-direction) * Math.PI / 180);
+                var y = -magnitude * Math.sin((90-direction) * Math.PI / 180);
+                return {x, y};
+            } else if (direction >= 90 && direction < 180){
+                var x = magnitude * Math.cos((direction-90)* Math.PI / 180);
+                var y = magnitude * Math.sin((direction-90)* Math.PI / 180);
+                return {x, y};
+            } else if (direction >= 180 && direction < 270){
+                var x = -magnitude * Math.cos((270-direction) * Math.PI / 180);
+                var y = magnitude * Math.sin((270-direction) * Math.PI / 180);
+                return {x, y};
+            } else if (direction >= 270 && direction < 360){
+                var x = -magnitude * Math.cos((direction-270) * Math.PI / 180);
+                var y = -magnitude * Math.sin((direction-270) * Math.PI / 180);
+                return {x, y};
+            }
+        }
+        this.rotate = (angspeed) => {
+
+        }
+        this.rotateTo = (direction, time) => {
+
+        }
+        this.move = (direction, speed) => {
+            //get velocity vector components
+            if (speed > this.minspeed && speed < this.maxspeed){
+                this.direction = direction;
+                this.speed = speed;
+                console.log("spd: "+this.speed);
+            }
+            var vector = this.getvector(direction, this.speed);
+            this.x = this.x + vector.x;
+            this.y = this.y + vector.y;
+        }
+        this.moveTo = (x, y, time) => {
+
+        }
+        this.scale = (x, y) => {
+
+        }
+        this.scaleTo = (x, y, time) => {
+
+        }
+        this.applyforce = (angle, force) => {
+            //get components of the future speed and present speed vectors
+            var speedfx = this.speed+(force/this.mass);
+            var anglefx = angle;
+            var speedpy = this.speed;
+            var anglepy = this.direction;
+            var fx = this.getvector(anglefx, speedfx);
+            var py = this.getvector(anglepy, speedpy);
+            //add speed vector components
+            var Cx = fx.x + py.x;
+            var Cy = fx.y + py.y;
+            //resultant vector of the present speed and proposed speed vectors
+            var resspeed = Math.sqrt((Cx**2)+(Cy**2));
+            //call rotateTo here with time derived from angspeed
+            this.move(angle, resspeed);
+        }
     }
 }
 

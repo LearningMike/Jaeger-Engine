@@ -14,8 +14,9 @@ var playerOne = new Character({
     'y':Game.height/2,
     'width':20,
     'height':20,
-    'direction':0,
+    'direction': 90,
     'speed':0,
+    'angspeed':0,
     'maxspeed':10,
     'minspeed':0,
     'mass':10,
@@ -25,7 +26,7 @@ var playerOne = new Character({
     'gravity':0.9,
     'friction':0.7,
     'massphysics':false,
-    'input':true
+    'input':{'KeyW':true, 'KeyA':true, 'KeyS':true, 'KeyD':true}
 });
 
 //#Frame
@@ -43,35 +44,35 @@ var drawGame = () => {
 
     Game.assets.forEach(character => {
 
-        if (character.input == true){
-            if (Game.key['KeyW']){
-                character.applyforce(1, 1);
-            }
-            if (Game.key['KeyA']){
-                character.applyforce(7, 1);
-            }
-            if (Game.key['KeyS']){
-                character.applyforce(5, 1);
-            }
-            if (Game.key['KeyD']){
-                character.applyforce(3, 1);
-            }
+        if (Game.key['KeyW'] && character.input['KeyW']){
+            character.applyforce(0, 1);
+        }
+        if (Game.key['KeyA'] && character.input['KeyA']){
+            character.applyforce(270, 1);
+        }
+        if (Game.key['KeyS'] && character.input['KeyS']){
+            character.applyforce(180, 1);
+        }
+        if (Game.key['KeyD'] && character.input['KeyD']){
+            character.applyforce(90, 1);
         }
 
         if (character.physics == true){
             //inertia
-            character.applyforce(character.direction, character.mass*character.acceleration);
+            //character.applyforce(character.direction, 0);
             //gravity
-            character.applyforce(5, character.mass*character.gravity);
+            //character.applyforce(5, character.mass*character.gravity);
             //collision
             Game.collisionGraph.push([character.x, character.y, character.height, character.width]);
             Game.collisionGraph.forEach(collider =>{
                 if (collider.x <= (character.x+character.width) && (collider.x+collider.width) >= character.x && collider.y <= (character.y+character.height) && (collider.y+collider.height) >= character.y){
                     //calculate momentum before and after collision
+                    
                     //apply force to both colliders (bounce or no bounce? i mean should the collision be elastic?)
                 }
             });
-            //friction
+            //friction with friction coefficients of object surfaces
+            //friction with Game.resistance
         }
         if (character.massphysics == true){
             //planetary physics, fluid simulations? have fun
