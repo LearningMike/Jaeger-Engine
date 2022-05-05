@@ -7,10 +7,22 @@ var Game = {
     "resistance": 0.1,
     "assets" : [],
     "ready" : false,
+    "play" : false,
     "grid" : false,
     "online" : false,
     "key" : {},
     "collisionGraph": []
+}
+
+var toggleGame = () => {
+    if (Game.play == false){
+        Game.play = true;
+        document.getElementById("togglegame").innerText = "⏸️";
+        drawGame();
+    } else {
+        Game.play = false;
+        document.getElementById("togglegame").innerText = "▶️";
+    }
 }
 
 var togglePositions = () => {
@@ -18,6 +30,9 @@ var togglePositions = () => {
         Game.grid = true;
     } else {
         Game.grid = false;
+    }
+    if (Game.play == false) {
+        toggleGame();
     }
 }
 

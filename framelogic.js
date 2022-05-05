@@ -1,37 +1,12 @@
 // @michael_abia_v1 2022
-// Game Logic Created with Game Engine
+// Frame Logic Created with Game Engine
 
-//#Background
-
-//#Collision
-
-//#NonPlayers
-
-//#Players
-var playerOne = new Character({
-    'name':'mario',
-    'x':Game.width/2,
-    'y':Game.height/2,
-    'width':20,
-    'height':20,
-    'direction': 90,
-    'speed':0,
-    'angspeed':0,
-    'maxspeed':10,
-    'minspeed':0,
-    'mass':10,
-    'acceleration':0,
-    'link':'pic1.png',
-    'physics':true,
-    'gravity':0.9,
-    'friction':0.7,
-    'massphysics':false,
-    'input':{'KeyW':true, 'KeyA':true, 'KeyS':true, 'KeyD':true}
-});
-
-//#Frame
 var drawGame = () => {
-    window.requestAnimationFrame(drawGame);
+    if (Game.play == true){
+        window.requestAnimationFrame(drawGame);
+    } else {
+        window.cancelAnimationFrame(drawGame);
+    }
     var canvas = document.getElementById("screen");
     var cursor = canvas.getContext("2d");
     cursor.canvas.width = Game.width;
@@ -44,6 +19,7 @@ var drawGame = () => {
 
     Game.assets.forEach(character => {
 
+        //#Input
         if (Game.key['KeyW'] && character.input['KeyW']){
             character.applyforce(0, 1);
         }
@@ -57,6 +33,7 @@ var drawGame = () => {
             character.applyforce(90, 1);
         }
 
+        //#Physics
         if (character.physics == true){
             //inertia
             //character.applyforce(character.direction, 0);
@@ -64,7 +41,7 @@ var drawGame = () => {
             //character.applyforce(5, character.mass*character.gravity);
             //collision
             Game.collisionGraph.push([character.x, character.y, character.height, character.width]);
-            Game.collisionGraph.forEach(collider =>{
+            Game.collisionGraph.forEach(collider => {
                 if (collider.x <= (character.x+character.width) && (collider.x+collider.width) >= character.x && collider.y <= (character.y+character.height) && (collider.y+collider.height) >= character.y){
                     //calculate momentum before and after collision
                     
@@ -77,6 +54,7 @@ var drawGame = () => {
         if (character.massphysics == true){
             //planetary physics, fluid simulations? have fun
         }
+        //#Online
         if (Game.online == true){
             //stream positions of players to each other
         }

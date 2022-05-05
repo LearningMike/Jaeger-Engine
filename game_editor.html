@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Game</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="description" content="Project by Michael Abia">
+        <meta name="keywords" content="Javascript, Game, Engine, Michael Abia, Jaeger Engine">
+        <meta property="og:title" content="Jaeger Engine">
+        <meta property="og:type" content="Website">
+        <meta property="og:url" content="https://jaegerengine.web.app">
+        <meta property="og:image:width" content="225">
+        <meta property="og:image:height" content="225">
+        <meta property="og:image:alt" content="Jaeger Engine">
+        <meta property="og:image:secure_url" content="https://jaegerengine.web.app/assets/jaeger-engine.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:site_name" content="JaegerEngine">
+        <link rel="icon" type="image/png" href="assets/favicon-32x32.png" sizes="32x32">
+        <link rel="stylesheet" href="assets/main.css"/>
         <script src="game_engine.js"></script>
+        <title>Jaeger Engine Editor</title>
     </head>
-    <body style="background-color:lavender; margin: 0px;">
-        <canvas id="screen" style="background-color: white; width: 100%; margin: 0px; display: block;"></canvas>
+    <body>
+        <section>
+            <div id="nocode">
+                <canvas id="screen"></canvas>
+                <div id="menu">
+                    <button id="togglegame" onclick="toggleGame()">▶️</button>
+                    <button onclick="togglePositions()">▦</button>
+                    <button onclick="toggleFPS()">FPS</button>
+                    <button onclick="createCharacter()">➕ Add Character</button>
+                </div>
+                <div>
+                    <div>character list read from character tab</div>
+                    <div>character menu(templates) to chose from</div>
+                </div>
+            </div>
+            <div id="code">
+                tabs initially read from characters.js, framelogic.js and script.js
+                and then can be edited and saved to those files
+            </div>
+        </section>
+        <div id="popup">
+        </div>
     </body>
-    <script src="gamelogic.js" defer></script>
+    <!--Scripts to be generated/read-->
+    <script src="characters.js" defer></script>
+    <script src="framelogic.js" defer></script>
+    <script src="script.js" defer></script>
 </html>
