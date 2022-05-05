@@ -1,2 +1,2 @@
-# javascript-game-engine
- a html canvas renderer
+# Jaeger Engine
+ a javascript game engine
