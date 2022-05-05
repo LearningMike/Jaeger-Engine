@@ -1,3 +1,18 @@
+#home {
+    background: url(jaeger-engine.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: sans-serif;
+}
+#start {
+    background-color: white;
+    padding: 10px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: medium;
+}
 body {
     background-color:lavender;
     margin: 0px;
