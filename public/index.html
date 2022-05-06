@@ -28,7 +28,7 @@
         <link rel="icon" type="image/png" href="assets/favicon-32x32.png" sizes="32x32">
         <link rel="stylesheet" href="assets/main.css"/>
         <script src="game_engine.js"></script>
-        <title>Jaeger Engine Editor</title>
+        <title>Jaeger Engine</title>
     </head>
     <body>
         <section>
@@ -36,18 +36,31 @@
                 <canvas id="screen"></canvas>
                 <div id="menu">
                     <button id="togglegame" onclick="toggleGame()">▶️</button>
-                    <button onclick="togglePositions()">▦</button>
-                    <button onclick="toggleFPS()">FPS</button>
-                    <button onclick="createCharacter()">➕ Add Character</button>
+                    <button onclick="togglePositions()">▦ Grid</button>
+                    <button onclick="exportGame()">🎮 Export</button>
                 </div>
                 <div>
-                    <div>character list read from character tab</div>
-                    <div>character menu(templates) to chose from</div>
+                    <div id="list">
+                    </div>
+                    <div id="type">
+                        <div style="color: antiquewhite; font-weight: bold; font-family: sans-serif;">Add Character: </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <button onclick="createCharacter('b')">Background</button>
+                        <button onclick="createCharacter('c')">Collision</button>
+                        <button onclick="createCharacter('n')">NPC</button>
+                        <button onclick="createCharacter('p')">Player</button>
+                    </div>
                 </div>
             </div>
             <div id="code">
-                tabs initially read from characters.js, framelogic.js and script.js
-                and then can be edited and saved to those files
+                <div>
+                    <button onclick="openTab('character.js')">Character.js</button>
+                    <button onclick="openTab('loop.js')">Loop.js</button>
+                    <button onclick="openTab('script.js')">Script.js</button>
+                </div>
+                <textarea style="height: 93vh; width: 37vw;">
+
+                </textarea>
             </div>
         </section>
         <div id="popup">
@@ -55,6 +68,6 @@
     </body>
     <!--Scripts to be generated/read-->
     <script src="characters.js" defer></script>
-    <script src="framelogic.js" defer></script>
+    <script src="loop.js" defer></script>
     <script src="script.js" defer></script>
 </html>

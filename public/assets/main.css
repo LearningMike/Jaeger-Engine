@@ -14,7 +14,7 @@
     font-size: medium;
 }
 body {
-    background-color:lavender;
+    background-color: antiquewhite;
     margin: 0px;
 }
 section {
@@ -39,6 +39,20 @@ section {
     width: 40vw;
     height: 100vh;
     display: block;
+}
+#type{
+    display: flex;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    background-color: orangered;
+}
+#list{
+    height: 20vh; 
+    width: 60vw-40px;
+    border-radius: 10px;
+    margin: 20px;
+    background-color: white;
 }
 #popup{
     display: none;

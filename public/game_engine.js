@@ -9,6 +9,7 @@ var Game = {
     "ready" : false,
     "play" : false,
     "grid" : false,
+    "fps" : false,
     "online" : false,
     "key" : {},
     "collisionGraph": []
@@ -33,6 +34,32 @@ var togglePositions = () => {
     }
     if (Game.play == false) {
         toggleGame();
+    }
+}
+
+var createCharacter = (type) => {
+    //switch to character tab first
+
+    //then save the character object to memory
+    switch (type) {
+        case b:
+            
+            break;
+
+        case c:
+            
+            break;
+        
+        case n:
+            
+            break;
+
+        case p:
+            
+            break;
+    
+        default:
+            break;
     }
 }
 
