@@ -36,10 +36,12 @@
                 <canvas id="screen"></canvas>
                 <div id="menu">
                     <button id="togglegame" onclick="toggleGame()">▶️</button>
-                    <button onclick="togglePositions()">▦ Grid</button>
+                    <button onclick="togglePositions()">▦ Toggle Grid</button>
+                    <button onclick="toggleFPS()">⌗ Toggle FPS</button>
+                    <button onclick="importGame()">📃 Import</button>
                     <button onclick="exportGame()">🎮 Export</button>
                 </div>
-                <div>
+                <div id="charactermenu">
                     <div id="list">
                     </div>
                     <div id="type">
@@ -51,6 +53,12 @@
                         <button onclick="createCharacter('p')">Player</button>
                     </div>
                 </div>
+                <div id="loopmenu">
+
+                </div>
+                <div id="scriptmenu">
+
+                </div>
             </div>
             <div id="code">
                 <div>
@@ -58,7 +66,13 @@
                     <button onclick="openTab('loop.js')">Loop.js</button>
                     <button onclick="openTab('script.js')">Script.js</button>
                 </div>
-                <textarea style="height: 93vh; width: 37vw;">
+                <textarea id="charactertab">
+
+                </textarea>
+                <textarea id="looptab">
+
+                </textarea>
+                <textarea id="scripttab">
 
                 </textarea>
             </div>
