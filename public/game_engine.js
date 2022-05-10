@@ -16,113 +16,6 @@ var Game = {
     "collisionGraph": []
 }
 
-var toggleGame = () => {
-    if (Game.play == false){
-        Game.play = true;
-        document.getElementById("togglegame").innerText = "⏸️";
-        drawGame();
-    } else {
-        Game.play = false;
-        document.getElementById("togglegame").innerText = "▶️";
-    }
-}
-
-var togglePositions = () => {
-    if (Game.grid == false){
-        Game.grid = true;
-    } else {
-        Game.grid = false;
-    }
-    if (Game.play == false) {
-        toggleGame();
-    }
-}
-
-var toggleFPS = () => {
-    if (Game.fps == false){
-        Game.fps = true;
-    } else {
-        Game.fps = false;
-    }
-    if (Game.play == false) {
-        toggleGame();
-    }
-}
-
-var importGame = () => {
-    //read character.js, loop.js and from a folder
-    //and write to the tabs
-}
-
-var exportGame = () => {
-    //save character.js, loop.js and to a folder
-    //and save a game-only index.html
-}
-
-var createCharacter = (type) => {
-    //switch to character tab first
-    openTab('characters.js');
-
-    //then save the character object to memory and tab
-    switch (type) {
-        case b:
-
-            break;
-
-        case c:
-            
-            break;
-        
-        case n:
-            
-            break;
-
-        case p:
-            
-            break;
-    
-        default:
-            break;
-    }
-}
-
-var openTab = (js) =>{
-    switch (js) {
-        case 'characters.js':
-            //highlight tab
-            document.getElementById('ct').style.backgroundColor = "orangered";
-            document.getElementById('lt').style.backgroundColor = "antiquewhite";
-            document.getElementById('st').style.backgroundColor = "antiquewhite";
-            //show textarea
-            document.getElementById('charactertab').style.display = "block";
-            document.getElementById('looptab').style.display = "none";
-            document.getElementById('scripttab').style.display = "none";
-            //show menu
-
-            //get from memory
-            break;
-        case 'loop.js':
-            document.getElementById('ct').style.backgroundColor = "antiquewhite";
-            document.getElementById('lt').style.backgroundColor = "orangered";
-            document.getElementById('st').style.backgroundColor = "antiquewhite";
-            document.getElementById('charactertab').style.display = "none";
-            document.getElementById('looptab').style.display = "block";
-            document.getElementById('scripttab').style.display = "none";
-            break;
-        case 'script.js':
-            document.getElementById('ct').style.backgroundColor = "antiquewhite";
-            document.getElementById('lt').style.backgroundColor = "antiquewhite";
-            document.getElementById('st').style.backgroundColor = "orangered";
-            document.getElementById('charactertab').style.display = "none";
-            document.getElementById('looptab').style.display = "none";
-            document.getElementById('scripttab').style.display = "block";
-            break;
-    
-        default:
-            break;
-    }
-}
-
 var drawCharacter = (cursor, character, characterX, characterY, characterW, characterH) => {
     cursor.beginPath();
     cursor.drawImage(character, characterX, characterY, characterW, characterH);
@@ -256,6 +149,7 @@ class Character {
             //resultant vector of the present speed and proposed speed vectors
             var resspeed = Math.sqrt((Cx**2)+(Cy**2));
             //call rotateTo here with time derived from angspeed
+            //and use this. direction instead of this angle
             this.move(angle, resspeed);
         }
     }
