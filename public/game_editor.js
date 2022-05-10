@@ -4,7 +4,7 @@
 var toggleGame = () => {
     if (Game.play == false){
         Game.play = true;
-        document.getElementById("togglegame").innerText = "⏸️";
+        document.getElementById("togglegame").innerText = "⏸";
         drawGame();
     } else {
         Game.play = false;
@@ -26,8 +26,10 @@ var togglePositions = () => {
 var toggleFPS = () => {
     if (Game.fps == false){
         Game.fps = true;
+        document.getElementById("stat").style.display = 'block';
     } else {
         Game.fps = false;
+        document.getElementById("stat").style.display = 'none';
     }
     if (Game.play == false) {
         toggleGame();
