@@ -4,6 +4,7 @@
 var Game = {
     "height": window.innerHeight,
     "width" : window.innerWidth,
+    "lastframe" : 0,
     "resistance": 0.1,
     "assets" : [],
     "ready" : false,
@@ -37,13 +38,35 @@ var togglePositions = () => {
     }
 }
 
+var toggleFPS = () => {
+    if (Game.fps == false){
+        Game.fps = true;
+    } else {
+        Game.fps = false;
+    }
+    if (Game.play == false) {
+        toggleGame();
+    }
+}
+
+var importGame = () => {
+    //read character.js, loop.js and from a folder
+    //and write to the tabs
+}
+
+var exportGame = () => {
+    //save character.js, loop.js and to a folder
+    //and save a game-only index.html
+}
+
 var createCharacter = (type) => {
     //switch to character tab first
+    openTab('characters.js');
 
-    //then save the character object to memory
+    //then save the character object to memory and tab
     switch (type) {
         case b:
-            
+
             break;
 
         case c:
@@ -56,6 +79,43 @@ var createCharacter = (type) => {
 
         case p:
             
+            break;
+    
+        default:
+            break;
+    }
+}
+
+var openTab = (js) =>{
+    switch (js) {
+        case 'characters.js':
+            //highlight tab
+            document.getElementById('ct').style.backgroundColor = "orangered";
+            document.getElementById('lt').style.backgroundColor = "antiquewhite";
+            document.getElementById('st').style.backgroundColor = "antiquewhite";
+            //show textarea
+            document.getElementById('charactertab').style.display = "block";
+            document.getElementById('looptab').style.display = "none";
+            document.getElementById('scripttab').style.display = "none";
+            //show menu
+
+            //get from memory
+            break;
+        case 'loop.js':
+            document.getElementById('ct').style.backgroundColor = "antiquewhite";
+            document.getElementById('lt').style.backgroundColor = "orangered";
+            document.getElementById('st').style.backgroundColor = "antiquewhite";
+            document.getElementById('charactertab').style.display = "none";
+            document.getElementById('looptab').style.display = "block";
+            document.getElementById('scripttab').style.display = "none";
+            break;
+        case 'script.js':
+            document.getElementById('ct').style.backgroundColor = "antiquewhite";
+            document.getElementById('lt').style.backgroundColor = "antiquewhite";
+            document.getElementById('st').style.backgroundColor = "orangered";
+            document.getElementById('charactertab').style.display = "none";
+            document.getElementById('looptab').style.display = "none";
+            document.getElementById('scripttab').style.display = "block";
             break;
     
         default:
@@ -103,6 +163,14 @@ var graph = (cursor) => {
             cursor.strokeStyle = "#005500";
             cursor.stroke();
         }
+    }
+}
+
+var fps = () => {
+    if (Game.lastframe == 0){
+        Game.lastframe = Date.now();
+    } else {
+        //calculate the time difference and set fps
     }
 }
 

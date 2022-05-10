@@ -64,25 +64,22 @@ section {
     left: 20vw;
     bottom: 10vh;
 }
-#charactertab {
+textarea {
     height: 93vh; 
     width: 37vw;
-    display: block;
     border-radius: 10px;
+    border-top-left-radius: 0px;
+}
+#charactertab {
+    display: block;
 }
 #looptab {
-    height: 93vh; 
-    width: 37vw;
     display: none;
-    border-radius: 10px;
 }
 #scripttab {
-    height: 93vh; 
-    width: 37vw;
     display: none;
-    border-radius: 10px;
 }
-#charactermenu{
+#charactermenu {
     display: block;
 }
 #loopmenu {
@@ -90,4 +87,10 @@ section {
 }
 #scriptmenu {
     display: none;
+}
+button {
+    background-color: antiquewhite;
+}
+button:hover {
+    background-color: orangered;
 }

@@ -13,8 +13,12 @@ var drawGame = () => {
     cursor.canvas.height = Game.height;
     cursor.clearRect(0, 0, Game.width, Game.height);
 
-    if (Game.grid == true) {
+    if (Game.grid) {
         graph(cursor);
+    }
+
+    if (Game.fps){
+        fps();
     }
 
     Game.assets.forEach(character => {
