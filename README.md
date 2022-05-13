@@ -2,4 +2,5 @@
   <img src="https://jaeger-engine.web.app/assets/jaeger-engine.png"/>
 </p>
 
-<b>Documentation</b>
+<h1>Documentation</h1>
+<h3>Chapter 1</h3>
