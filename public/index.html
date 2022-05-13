@@ -34,9 +34,9 @@
             <img src="assets/jaeger-engine.png" id="logo" draggable="false"/>
             <button id="start">New Project</button>
             <div class="list"></div>
-            <a href="https://github.com/LearningMike/Jaeger-Engine">Github</a>
+            <a href="https://github.com/LearningMike/Jaeger-Engine" target="_blank">Github</a>
             &nbsp;&nbsp;&nbsp;
-            <a href="">Tutorial</a>
+            <a href="" target="_blank">Tutorial</a>
         </div>
     </body>
     <script type="text/javascript">
@@ -44,7 +44,7 @@
             if (Object.hasOwnProperty.call(localStorage, key)) {
                 const element = localStorage[key];
                 if (key.endsWith('ct')){
-                    console.log(key.replace('_ct',''));
+                    var name = key.replace('_ct','');
                 }
             }
         }
