@@ -20,6 +20,9 @@ section {
 }
 #menu {
     margin: 0px;
+    border-top: dotted;
+    border-width: thin;
+    border-color: antiquewhite;
 }
 #code {
     width: 40vw;
@@ -33,10 +36,13 @@ section {
     padding: 20px;
     background-color: orangered;
 }
-#list{
+.list{
     height: 20vh; 
     width: 60vw-40px;
     border-radius: 10px;
+    border: dotted;
+    border-width: thin;
+    border-color: antiquewhite;
     margin: 20px;
     background-color: black;
 }
@@ -47,6 +53,7 @@ textarea {
     border-top-left-radius: 0px;
     background-color: black;
     color: antiquewhite;
+    white-space: pre;
 }
 textarea:hover {
     cursor: text;
@@ -92,4 +99,34 @@ button:hover {
     top: 0px;
     left: 0px;
     font-size: small;
+}
+#home {
+    width: 100vw;
+    align-content: center;
+    text-align: center;
+}
+#logo {
+    width: 60vw;
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+#start {
+    background-color: black;
+    color: #d11003;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: solid;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+} 
+#start:hover, #start:active {
+    background-color: #600001;
+}
+a {
+    text-decoration: none;
+    color: #d11003;
+}
+a:hover {
+    text-decoration: underline;
 }

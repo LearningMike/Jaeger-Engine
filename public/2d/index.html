@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="description" content="Project by Michael Abia">
+        <meta name="keywords" content="Javascript, Game, Engine, Michael Abia, Jaeger Engine">
+        <meta content="https://twitter.com/michael_abia_v1" property="og:see_also" />
+		<!-- Twitter data -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@michael_abia_v1" />
+		<meta name="twitter:creator" content="@michael_abia_v1" />
+		<meta name="twitter:title" content="Jaeger Engine" />
+		<meta name="twitter:description" content="a javascript game engine" />
+		<meta name="twitter:image" content="https://jaeger-engine.web.app/assets/jaeger-engine.png" />
+		<meta name="twitter:image:width" content="315" />
+		<meta name="twitter:image:height" content="600" />
+		<meta name="twitter:image:alt" content="Brinmo" />
+        <meta property="og:title" content="Jaeger Engine">
+        <meta property="og:type" content="Website">
+        <meta property="og:url" content="https://jaeger-engine.web.app">
+        <meta property="og:image:width" content="315">
+        <meta property="og:image:height" content="600">
+        <meta property="og:image:alt" content="Jaeger Engine">
+        <meta property="og:image:secure_url" content="https://jaeger-engine.web.app/assets/jaeger-engine.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:site_name" content="Jaeger-Engine">
+        <link rel="icon" type="image/png" href="../assets/favicon-32x32.png" sizes="32x32">
+        <link rel="stylesheet" href="../assets/main.css"/>
+        <script src="game_engine.js"></script>
+        <script src="game_editor.js"></script>
+        <title>Jaeger Engine</title>
+    </head>
+    <body>
+        <section>
+            <div id="nocode">
+                <canvas id="screen"></canvas>
+                <div id="menu">
+                    <button id="togglegame" onclick="toggleGame()">▶️ Play</button>
+                    <button onclick="togglePositions()">▦ Grid</button>
+                    <button onclick="toggleFPS()">⌗ FPS</button>
+                    <button onclick="importGame()">📃 Import</button>
+                    <button onclick="exportGame()">🎮 Export</button>
+                </div>
+                <div id="charactermenu">
+                    <div class="list">
+                    </div>
+                    <div id="type">
+                        <div style="color: antiquewhite; font-weight: bold; font-family: sans-serif;">Add Character: </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <button onclick="createCharacter('b')">Background</button>
+                        <button onclick="createCharacter('c')">Collision</button>
+                        <button onclick="createCharacter('n')">NPC</button>
+                        <button onclick="createCharacter('p')">Player</button>
+                    </div>
+                </div>
+                <div id="loopmenu">
+
+                </div>
+                <div id="scriptmenu">
+
+                </div>
+            </div>
+            <div id="code">
+                <div>
+                    <button id="ct" onclick="openTab('characters.js')">Characters.js</button>
+                    <button id="lt" onclick="openTab('loop.js')">Loop.js</button>
+                    <button id="st" onclick="openTab('script.js')">Script.js</button>
+                </div>
+                <textarea id="charactertab" onchange="saveTab('characters.js')"></textarea>
+                <textarea id="looptab" onchange="saveTab('loop.js')"></textarea>
+                <textarea id="scripttab" onchange="saveTab('script.js')"></textarea>
+            </div>
+        </section>
+        <div id="popup">
+        </div>
+        <div id="stat">
+        </div>
+    </body>
+</html>

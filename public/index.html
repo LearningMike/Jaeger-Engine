@@ -27,58 +27,26 @@
         <meta property="og:site_name" content="Jaeger-Engine">
         <link rel="icon" type="image/png" href="assets/favicon-32x32.png" sizes="32x32">
         <link rel="stylesheet" href="assets/main.css"/>
-        <script src="game_engine.js"></script>
-        <script src="game_editor.js"></script>
         <title>Jaeger Engine</title>
     </head>
     <body>
-        <section>
-            <div id="nocode">
-                <canvas id="screen"></canvas>
-                <div id="menu">
-                    <button id="togglegame" onclick="toggleGame()">▶️</button>
-                    <button onclick="togglePositions()">▦ Grid</button>
-                    <button onclick="toggleFPS()">⌗ FPS</button>
-                    <button onclick="importGame()">📃 Import</button>
-                    <button onclick="exportGame()">🎮 Export</button>
-                </div>
-                <div id="charactermenu">
-                    <div id="list">
-                    </div>
-                    <div id="type">
-                        <div style="color: antiquewhite; font-weight: bold; font-family: sans-serif;">Add Character: </div>
-                        &nbsp;&nbsp;&nbsp;
-                        <button onclick="createCharacter('b')">Background</button>
-                        <button onclick="createCharacter('c')">Collision</button>
-                        <button onclick="createCharacter('n')">NPC</button>
-                        <button onclick="createCharacter('p')">Player</button>
-                    </div>
-                </div>
-                <div id="loopmenu">
-
-                </div>
-                <div id="scriptmenu">
-
-                </div>
-            </div>
-            <div id="code">
-                <div>
-                    <button id="ct" onclick="openTab('characters.js')">Characters.js</button>
-                    <button id="lt" onclick="openTab('loop.js')">Loop.js</button>
-                    <button id="st" onclick="openTab('script.js')">Script.js</button>
-                </div>
-                <textarea id="charactertab"></textarea>
-                <textarea id="looptab"></textarea>
-                <textarea id="scripttab"></textarea>
-            </div>
-        </section>
-        <div id="popup">
-        </div>
-        <div id="stat">
+        <div id="home">
+            <img src="assets/jaeger-engine.png" id="logo" draggable="false"/>
+            <button id="start">New Project</button>
+            <div class="list"></div>
+            <a href="https://github.com/LearningMike/Jaeger-Engine">Github</a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="">Tutorial</a>
         </div>
     </body>
-    <!--Scripts to be generated/read-->
-    <script src="characters.js" defer></script>
-    <script src="loop.js" defer></script>
-    <script src="script.js" defer></script>
+    <script type="text/javascript">
+        for (const key in localStorage) {
+            if (Object.hasOwnProperty.call(localStorage, key)) {
+                const element = localStorage[key];
+                if (key.endsWith('ct')){
+                    console.log(key.replace('_ct',''));
+                }
+            }
+        }
+    </script>
 </html>

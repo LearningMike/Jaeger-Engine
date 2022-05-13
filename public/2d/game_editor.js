@@ -1,14 +1,19 @@
 // @michael_abia_v1 2022
 // Game Editor Functions
 
+Game.editor = true;
+
 var toggleGame = () => {
     if (Game.play == false){
         Game.play = true;
-        document.getElementById("togglegame").innerText = "⏸";
+        document.getElementById("togglegame").innerText = "⏸ Pause";
+        window.eval(document.getElementById('charactertab').value);
+        window.eval(document.getElementById('looptab').value);
+        window.eval(document.getElementById('scripttab').value);
         drawGame();
     } else {
         Game.play = false;
-        document.getElementById("togglegame").innerText = "▶️";
+        document.getElementById("togglegame").innerText = "▶️ Play";
     }
 }
 
@@ -46,46 +51,22 @@ var exportGame = () => {
     //and save a game-only index.html
 }
 
-var createCharacter = (type) => {
-    //switch to character tab first
-    openTab('characters.js');
-
-    //then add the character object to the character.js tab
-    switch (type) {
-        case b:
-
-            break;
-
-        case c:
-            
-            break;
-        
-        case n:
-            
-            break;
-
-        case p:
-            
-            break;
-    
-        default:
-            break;
-    }
-}
-
 var saveTab = (js) => {
     switch (js) {
         case 'characters.js':
-            var code = document.getElementById('charactertab').innerText;
+            var code = document.getElementById('charactertab').value;
             //save to memory
+            localStorage.setItem(Game.name + "_ct", code);
             break;
         case 'loop.js':
-            var code = document.getElementById('looptab').innerText;
+            var code = document.getElementById('looptab').value;
             //save to memory
+            localStorage.setItem(Game.name + "_lt", code);
             break;
         case 'script.js':
-            var code = document.getElementById('scripttab').innerText;
+            var code = document.getElementById('scripttab').value;
             //save to memory
+            localStorage.setItem(Game.name + "_st", code);
             break;
     
         default:
@@ -109,6 +90,7 @@ var openTab = (js) => {
             document.getElementById('loopmenu').style.display = "none";
             document.getElementById('scriptmenu').style.display = "none";
             //get characters.js from memory
+            document.getElementById('charactertab').value = localStorage.getItem(Game.name+"_ct");
             break;
         case 'loop.js':
             //highlight tab
@@ -124,6 +106,7 @@ var openTab = (js) => {
             document.getElementById('loopmenu').style.display = "block";
             document.getElementById('scriptmenu').style.display = "none";
             //get loop.js from memory
+            document.getElementById('looptab').value = localStorage.getItem(Game.name+"_lt");
             break;
         case 'script.js':
             //highlight tab
@@ -139,6 +122,34 @@ var openTab = (js) => {
             document.getElementById('loopmenu').style.display = "none";
             document.getElementById('scriptmenu').style.display = "block";
             //get script.js from memory
+            document.getElementById('scripttab').value = localStorage.getItem(Game.name+"_st");
+            break;
+    
+        default:
+            break;
+    }
+}
+
+var createCharacter = (type) => {
+    //switch to character tab first
+    openTab('characters.js');
+
+    //then add the character object to the character.js tab
+    switch (type) {
+        case b:
+
+            break;
+
+        case c:
+            
+            break;
+        
+        case n:
+            
+            break;
+
+        case p:
+            
             break;
     
         default:

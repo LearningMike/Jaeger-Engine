@@ -2,6 +2,8 @@
 // Game Engine Variables and Functions
 
 var Game = {
+    "name":"",
+    "editor": false,
     "height": window.innerHeight,
     "width" : window.innerWidth,
     "lastframe" : performance.now(),
@@ -156,14 +158,34 @@ class Character {
 
 window.onload = () => {
 
-    //flip mobile screens
-    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-        if (document.body.requestFullscreen){
-            document.body.requestFullscreen();
-            screen.orientation.lock('landscape');
-        } else if (document.body.webkitRequestFullScreen) {
-            document.body.webkitRequestFullScreen();
-            screen.orientation.lock('landscape');
+    if (Game.editor){
+        //get the project name from the searchparams
+        let pparams = (new URL(document.location)).searchParams;
+        let pname = pparams.get('name');
+        if (pname != null) {
+            Game.name = pname.replace(' ', '_');
+            window.title = "Jaeger Engine - " + Game.name;
+            document.title = "Jaeger Engine - " + Game.name;
+            //check if project exists in memory
+            const exists = localStorage.getItem(Game.name+"_ct");
+            if(exists){
+                openTab('script.js');
+                openTab('loop.js');
+                openTab('characters.js');
+                window.eval(document.getElementById('charactertab').value);
+                window.eval(document.getElementById('looptab').value);
+                window.eval(document.getElementById('scripttab').value);
+            } else {
+                saveTab('characters.js');
+                saveTab('loop.js');
+                saveTab('script.js');
+                openTab('script.js');
+                openTab('loop.js');
+                openTab('characters.js');
+            }
+        } else {
+            Game.name = "project_"+Math.floor(Math.random()*10000);
+            window.location.replace("?name="+Game.name);
         }
     }
 
