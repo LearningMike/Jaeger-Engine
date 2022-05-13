@@ -3,4 +3,4 @@
 </p>
 
 <h1 align="center">Documentation</h1>
-<h3>Chapter 1</h3>
+<h3>Chapter 1: Everything is a Character</h3>
