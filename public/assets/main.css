@@ -1,3 +1,6 @@
+html {
+    font-size: medium;
+}
 body {
     background-color: black;
     color: antiquewhite;
@@ -45,6 +48,7 @@ section {
     border-color: antiquewhite;
     margin: 20px;
     background-color: black;
+    text-align: left;
 }
 textarea {
     height: 93vh; 
@@ -129,4 +133,39 @@ a {
 }
 a:hover {
     text-decoration: underline;
+}
+.tile {
+    display: inline-block;
+    padding: 15px;
+    margin: 5px;
+    color: #d11003;
+}
+.tile:hover {
+    cursor: pointer;
+    border-bottom: dotted;
+    border-bottom-width: thin;
+    border-color: #d11003;
+}
+#templates {
+    display: none;
+    position: fixed;
+    background-color: #00000022;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding: 8vw;
+    padding-top: 4vw;
+    text-align: center;
+}
+.td {
+    color: antiquewhite;
+    margin-top: 0vh;
+    margin-bottom: 5vh;
+    height: 60vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 40vw;
+    background-color: black;
+    border-radius: 10px;
 }

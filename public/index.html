@@ -32,21 +32,34 @@
     <body>
         <div id="home">
             <img src="assets/jaeger-engine.png" id="logo" draggable="false"/>
-            <button id="start">New Project</button>
-            <div class="list"></div>
-            <a href="https://github.com/LearningMike/Jaeger-Engine" target="_blank">Github</a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="" target="_blank">Tutorial</a>
+            <button id="start" onclick="showTemplates()">New Project</button>
+            <div id="plist" class="list" style="border-color: orangered;">
+                
+            </div>
+            <a href="https://github.com/LearningMike/Jaeger-Engine" target="_blank">Documentation</a>
+        </div>
+        <div id="templates">
+            <div style="margin: 2vw;">
+                <input id="pname" type="text" style="padding: 20px; width: 600px;" placeholder="Insert Game Name"/>
+            </div>
+            <div style="display: inline-flex; margin-left: 2vw; margin-right: 2vw;">
+                <h1 style="margin-right: 20vw; color: #FFFFFF33;">2D</h1>
+                <h1 style="margin-left: 20vw; color: #FFFFFF33;">3D</h1>
+            </div>
+            <div style="display: flex;">
+                <div class="td">
+                    <div class="tile" onclick="useTemplate('2d', 'blank')"><img src="assets/blank-template.png"/><br/>blank project</div>
+                    <div class="tile" onclick="useTemplate('2d', 'ground')"><img src="assets/favicon-32x32.png"/><br/>ground project</div>
+                    <div class="tile" onclick="useTemplate('2d', 'platformer')"><img src="assets/favicon-32x32.png"/><br/>platformer project</div>
+                    <div class="tile" onclick="useTemplate('2d', 'vertical')"><img src="assets/favicon-32x32.png"/><br/>vertical project</div>
+                    <div class="tile" onclick="useTemplate('2d', 'horizontal')"><img src="assets/favicon-32x32.png"/><br/>horizontal project</div>
+                    <div class="tile" onclick="useTemplate('2d', 'isometric')"><img src="assets/favicon-32x32.png"/><br/>isometric project</div>
+                    <div class="tile" onclick="useTemplate('2d', 'quake')"><img src="assets/favicon-32x32.png"/><br/>quake project</div>
+                </div>
+                <div class="td"></div>
+            </div>
+            <button onclick="closeTemplates()" style="padding: 10px; position: fixed; top: 0px; left: 0px; right: 0px; right: 0px; font-size: large; font-weight: bold;">✕</button>
         </div>
     </body>
-    <script type="text/javascript">
-        for (const key in localStorage) {
-            if (Object.hasOwnProperty.call(localStorage, key)) {
-                const element = localStorage[key];
-                if (key.endsWith('ct')){
-                    var name = key.replace('_ct','');
-                }
-            }
-        }
-    </script>
+    <script src="projects.js"></script>
 </html>

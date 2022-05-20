@@ -163,7 +163,7 @@ window.onload = () => {
         let pparams = (new URL(document.location)).searchParams;
         let pname = pparams.get('name');
         if (pname != null) {
-            Game.name = pname.replace(' ', '_');
+            Game.name = pname.replaceAll(' ', '_');
             window.title = "Jaeger Engine - " + Game.name;
             document.title = "Jaeger Engine - " + Game.name;
             //check if project exists in memory
@@ -176,6 +176,7 @@ window.onload = () => {
                 window.eval(document.getElementById('looptab').value);
                 window.eval(document.getElementById('scripttab').value);
             } else {
+                localStorage[Game.name] = "2d";
                 saveTab('characters.js');
                 saveTab('loop.js');
                 saveTab('script.js');

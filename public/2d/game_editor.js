@@ -130,6 +130,10 @@ var openTab = (js) => {
     }
 }
 
+var deleteAll = () => {
+
+}
+
 var createCharacter = (type) => {
     //switch to character tab first
     openTab('characters.js');
