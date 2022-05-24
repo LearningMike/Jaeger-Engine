@@ -9,7 +9,7 @@
   From the backgrounds to collision blocks, NPCs and player characters, 
   everything you see on the game screen is a defined using a character object.
   The Character object is defined in characters.js and contains data that is used by the game engine to decide the characters state or behaviour on screen. Let's have a deeper look at the keys it's made up of.
-  * <p>
+  <p>
     <code>'name':'mario',</code><br/>
     Like mario or sonic, it's a characters name.
   </p>
