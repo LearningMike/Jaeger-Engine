@@ -162,7 +162,7 @@ window.onload = () => {
         //get the project name from the searchparams
         let pparams = (new URL(document.location)).searchParams;
         let pname = pparams.get('name');
-        if (pname != null) {
+        if (pname != null || pname != "") {
             Game.name = pname.replaceAll(' ', '_');
             window.title = "Jaeger Engine - " + Game.name;
             document.title = "Jaeger Engine - " + Game.name;
@@ -200,6 +200,7 @@ window.onload = () => {
             if (percent == 100){
                 Game.ready = true;
             }
+            //do some error handling here
         }
     }
 };
