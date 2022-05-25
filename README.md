@@ -82,6 +82,19 @@
       <code>'input':{...}</code><br/>
       User inputs this character has actions for.
     </p>
+    <p>You might not know how to use this data structure yourself, so i wrote some functions...</p>
+    <p>
+      <code>anything.getvector(direction, magnitude)</code><br/>
+      vec
+    </p>
+    <p>
+      <code>anything.rotate(angspeed)</code><br/>
+      vec
+    </p>
+    <p>
+      <code>anything.rotateTo(direction, time)</code><br/>
+      vec
+    </p>
   </p>
 </details>
 <details>

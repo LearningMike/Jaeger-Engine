@@ -155,10 +155,34 @@ class Character {
         }
     }
 }
-
+var characterseditor;
+var loopeditor;
+var scripteditor;
 window.onload = () => {
-
     if (Game.editor){
+        scripteditor = CodeMirror(document.getElementById('scripttab'), {
+            mode:  "javascript",
+            lineNumbers: true,
+            theme: 'monokai',
+            lineWrapping: false,
+            tabSize: 4,
+        });
+        loopeditor = CodeMirror(document.getElementById('looptab'), {
+            mode:  "javascript",
+            lineNumbers: true,
+            theme: 'monokai',
+            lineWrapping: false,
+            tabSize: 4,
+        });
+        characterseditor = CodeMirror(document.getElementById('charactertab'), {
+            mode:  "javascript",
+            lineNumbers: true,
+            theme: 'monokai',
+            lineWrapping: false,
+            tabSize: 4,
+        });
+        
+
         //get the project name from the searchparams
         let pparams = (new URL(document.location)).searchParams;
         let pname = pparams.get('name');
@@ -172,9 +196,9 @@ window.onload = () => {
                 openTab('script.js');
                 openTab('loop.js');
                 openTab('characters.js');
-                window.eval(document.getElementById('charactertab').value);
-                window.eval(document.getElementById('looptab').value);
-                window.eval(document.getElementById('scripttab').value);
+                window.eval(characterseditor.getDoc().getValue());
+                window.eval(loopeditor.getDoc().getValue());
+                window.eval(scripteditor.getDoc().getValue());
             } else {
                 localStorage[Game.name] = "2d";
                 saveTab('characters.js');
@@ -184,6 +208,7 @@ window.onload = () => {
                 openTab('loop.js');
                 openTab('characters.js');
             }
+            document.getElementById("pdetails").innerText = ":: 2D/" + pname;
         } else {
             Game.name = "project_"+Math.floor(Math.random()*10000);
             window.location.replace("?name="+Game.name);

@@ -50,18 +50,6 @@ section {
     background-color: black;
     text-align: left;
 }
-textarea {
-    height: 93vh; 
-    width: 37vw;
-    border-radius: 10px;
-    border-top-left-radius: 0px;
-    background-color: black;
-    color: antiquewhite;
-    white-space: pre;
-}
-textarea:hover {
-    cursor: text;
-}
 #charactertab {
     display: block;
 }

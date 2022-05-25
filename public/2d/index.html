@@ -27,6 +27,21 @@
         <meta property="og:site_name" content="Jaeger-Engine">
         <link rel="icon" type="image/png" href="../assets/favicon-32x32.png" sizes="32x32">
         <link rel="stylesheet" href="../assets/main.css"/>
+        <script src="../lib/codemirror.js"></script>
+        <link rel="stylesheet" href="../addon/fold/foldgutter.css">
+        <link rel="stylesheet" href="../addon/dialog/dialog.css">
+        <link rel="stylesheet" href="../theme/monokai.css">
+        <link rel="stylesheet" href="../lib/codemirror.css">
+        <script src="../addon/search/searchcursor.js"></script>
+        <script src="../addon/search/search.js"></script>
+        <script src="../addon/dialog/dialog.js"></script>
+        <script src="../addon/edit/matchbrackets.js"></script>
+        <script src="../addon/edit/closebrackets.js"></script>
+        <script src="../addon/comment/comment.js"></script>
+        <script src="../addon/wrap/hardwrap.js"></script>
+        <script src="../addon/fold/foldcode.js"></script>
+        <script src="../addon/fold/brace-fold.js"></script>
+        <script src="../mode/javascript/javascript.js"></script>
         <script src="../2d/game_engine.js"></script>
         <script src="../2d/game_editor.js"></script>
         <title>Jaeger Engine</title>
@@ -67,9 +82,10 @@
                     <button id="lt" onclick="openTab('loop.js')">Loop.js</button>
                     <button id="st" onclick="openTab('script.js')">Script.js</button>
                 </div>
-                <textarea id="charactertab" onchange="saveTab('characters.js')"></textarea>
-                <textarea id="looptab" onchange="saveTab('loop.js')"></textarea>
-                <textarea id="scripttab" onchange="saveTab('script.js')"></textarea>
+                <div id="charactertab" onchange="saveTab('characters.js')"></div>
+                <div id="looptab" onchange="saveTab('loop.js')"></div>
+                <div id="scripttab" onchange="saveTab('script.js')"></div>
+                <div id="pdetails" style="color: orangered;"></div>
             </div>
         </section>
         <div id="popup">

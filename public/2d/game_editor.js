@@ -7,9 +7,9 @@ var toggleGame = () => {
     if (Game.play == false){
         Game.play = true;
         document.getElementById("togglegame").innerText = "⏸ Pause";
-        window.eval(document.getElementById('charactertab').value);
-        window.eval(document.getElementById('looptab').value);
-        window.eval(document.getElementById('scripttab').value);
+        window.eval(characterseditor.getDoc().getValue());
+        window.eval(loopeditor.getDoc().getValue());
+        window.eval(scripteditor.getDoc().getValue());
         drawGame();
     } else {
         Game.play = false;
@@ -54,17 +54,17 @@ var exportGame = () => {
 var saveTab = (js) => {
     switch (js) {
         case 'characters.js':
-            var code = document.getElementById('charactertab').value;
+            var code = characterseditor.getDoc().getValue();
             //save to memory
             localStorage.setItem(Game.name + "_ct", code);
             break;
         case 'loop.js':
-            var code = document.getElementById('looptab').value;
+            var code = loopeditor.getDoc().getValue();
             //save to memory
             localStorage.setItem(Game.name + "_lt", code);
             break;
         case 'script.js':
-            var code = document.getElementById('scripttab').value;
+            var code = scripteditor.getDoc().getValue();
             //save to memory
             localStorage.setItem(Game.name + "_st", code);
             break;
@@ -90,7 +90,9 @@ var openTab = (js) => {
             document.getElementById('loopmenu').style.display = "none";
             document.getElementById('scriptmenu').style.display = "none";
             //get characters.js from memory
-            document.getElementById('charactertab').value = localStorage.getItem(Game.name+"_ct");
+            characterseditor.getDoc().setValue(localStorage.getItem(Game.name+"_ct"));
+            characterseditor.setSize("100%", "94vh");
+            characterseditor.refresh();
             break;
         case 'loop.js':
             //highlight tab
@@ -106,7 +108,9 @@ var openTab = (js) => {
             document.getElementById('loopmenu').style.display = "block";
             document.getElementById('scriptmenu').style.display = "none";
             //get loop.js from memory
-            document.getElementById('looptab').value = localStorage.getItem(Game.name+"_lt");
+            loopeditor.getDoc().setValue(localStorage.getItem(Game.name+"_lt"));
+            loopeditor.setSize("100%", "94vh");
+            loopeditor.refresh();
             break;
         case 'script.js':
             //highlight tab
@@ -122,7 +126,9 @@ var openTab = (js) => {
             document.getElementById('loopmenu').style.display = "none";
             document.getElementById('scriptmenu').style.display = "block";
             //get script.js from memory
-            document.getElementById('scripttab').value = localStorage.getItem(Game.name+"_st");
+            scripteditor.getDoc().setValue(localStorage.getItem(Game.name+"_st"));
+            scripteditor.setSize("100%", "94vh");
+            scripteditor.refresh();
             break;
     
         default:
