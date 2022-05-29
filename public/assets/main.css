@@ -76,6 +76,10 @@ button:hover {
     background-color: orangered;
     cursor: pointer;
 }
+#compile {
+    display: none;
+    background-color: orangered;
+}
 #popup{
     display: none;
     background-color: rgba(0, 0, 0, 0.5);

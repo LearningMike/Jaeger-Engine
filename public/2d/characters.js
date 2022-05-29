@@ -21,7 +21,7 @@ var playerOne = new Character({
     'minspeed':0,
     'mass':10,
     'acceleration':0,
-    'link':'https://jaeger-engine.web.app/assets/pic1.png',
+    'link':'../assets/pic1.png',
     'physics':true,
     'gravity':0.9,
     'friction':0.7,

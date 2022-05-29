@@ -1,8 +1,9 @@
 // @michael_abia_v1 2022
 // Game Editor Functions
 
-Game.editor = true;
-
+var compileCode = () => {
+    window.location.reload();
+}
 var toggleGame = () => {
     if (Game.play == false){
         Game.play = true;
@@ -18,26 +19,24 @@ var toggleGame = () => {
 }
 
 var togglePositions = () => {
-    if (Game.grid == false){
-        Game.grid = true;
-    } else {
-        Game.grid = false;
-    }
-    if (Game.play == false) {
-        toggleGame();
+    if (Game.play) {
+        if (Game.grid == false){
+            Game.grid = true;
+        } else {
+            Game.grid = false;
+        }
     }
 }
 
 var toggleFPS = () => {
-    if (Game.fps == false){
-        Game.fps = true;
-        document.getElementById("stat").style.display = 'block';
-    } else {
-        Game.fps = false;
-        document.getElementById("stat").style.display = 'none';
-    }
-    if (Game.play == false) {
-        toggleGame();
+    if (Game.play) {
+        if (Game.fps == false){
+            Game.fps = true;
+            document.getElementById("stat").style.display = 'block';
+        } else {
+            Game.fps = false;
+            document.getElementById("stat").style.display = 'none';
+        }
     }
 }
 
@@ -57,16 +56,25 @@ var saveTab = (js) => {
             var code = characterseditor.getDoc().getValue();
             //save to memory
             localStorage.setItem(Game.name + "_ct", code);
+            //show compile button
+            document.getElementById('compile').style.display = 'inline-block';
+            document.getElementById('togglegame').style.display = 'none';
             break;
         case 'loop.js':
             var code = loopeditor.getDoc().getValue();
             //save to memory
             localStorage.setItem(Game.name + "_lt", code);
+            //show compile button
+            document.getElementById('compile').style.display = 'inline-block';
+            document.getElementById('togglegame').style.display = 'none';
             break;
         case 'script.js':
             var code = scripteditor.getDoc().getValue();
             //save to memory
             localStorage.setItem(Game.name + "_st", code);
+            //show compile button
+            document.getElementById('compile').style.display = 'inline-block';
+            document.getElementById('togglegame').style.display = 'none';
             break;
     
         default:
@@ -137,7 +145,14 @@ var openTab = (js) => {
 }
 
 var deleteAll = () => {
-
+    var sure = confirm("Are you sure you want to delete '"+Game.name+"' ?");
+    if(sure) {             
+        localStorage.removeItem(Game.name);
+        localStorage.removeItem(Game.name+"_ct");
+        localStorage.removeItem(Game.name+"_lt");
+        localStorage.removeItem(Game.name+"_st");
+        window.location.replace("../index.html");
+    }
 }
 
 var createCharacter = (type) => {

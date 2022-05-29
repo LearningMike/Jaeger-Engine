@@ -3,11 +3,9 @@
 
 var Game = {
     "name":"",
-    "editor": false,
     "height": window.innerHeight,
     "width" : window.innerWidth,
     "lastframe" : performance.now(),
-    "resistance": 0.1,
     "assets" : [],
     "ready" : false,
     "play" : false,
@@ -65,6 +63,7 @@ var fps = () => {
     //calculate the time difference and set fps
     var currentFPS = Math.round(1000/((performance.now() - Game.lastframe)));
     document.getElementById("stat").innerText = " FPS: "+currentFPS;
+    document.getElementById("pdetails").innerText = ":: 2D/" + Game.name + " | FPS: "+currentFPS;
     Game.lastframe = performance.now();
 }
 
@@ -155,66 +154,8 @@ class Character {
         }
     }
 }
-var characterseditor;
-var loopeditor;
-var scripteditor;
+
 window.onload = () => {
-    if (Game.editor){
-        scripteditor = CodeMirror(document.getElementById('scripttab'), {
-            mode:  "javascript",
-            lineNumbers: true,
-            theme: 'monokai',
-            lineWrapping: false,
-            tabSize: 4,
-        });
-        loopeditor = CodeMirror(document.getElementById('looptab'), {
-            mode:  "javascript",
-            lineNumbers: true,
-            theme: 'monokai',
-            lineWrapping: false,
-            tabSize: 4,
-        });
-        characterseditor = CodeMirror(document.getElementById('charactertab'), {
-            mode:  "javascript",
-            lineNumbers: true,
-            theme: 'monokai',
-            lineWrapping: false,
-            tabSize: 4,
-        });
-        
-
-        //get the project name from the searchparams
-        let pparams = (new URL(document.location)).searchParams;
-        let pname = pparams.get('name');
-        if (pname != null || pname != "") {
-            Game.name = pname.replaceAll(' ', '_');
-            window.title = "Jaeger Engine - " + Game.name;
-            document.title = "Jaeger Engine - " + Game.name;
-            //check if project exists in memory
-            const exists = localStorage.getItem(Game.name+"_ct");
-            if(exists){
-                openTab('script.js');
-                openTab('loop.js');
-                openTab('characters.js');
-                window.eval(characterseditor.getDoc().getValue());
-                window.eval(loopeditor.getDoc().getValue());
-                window.eval(scripteditor.getDoc().getValue());
-            } else {
-                localStorage[Game.name] = "2d";
-                saveTab('characters.js');
-                saveTab('loop.js');
-                saveTab('script.js');
-                openTab('script.js');
-                openTab('loop.js');
-                openTab('characters.js');
-            }
-            document.getElementById("pdetails").innerText = ":: 2D/" + pname;
-        } else {
-            Game.name = "project_"+Math.floor(Math.random()*10000);
-            window.location.replace("?name="+Game.name);
-        }
-    }
-
     //load all starting assets images, if assets have multiple images in future do a nested loop
     for (i = 0; i < Game.assets.length; i++) {
         const asset = Game.assets[i];
