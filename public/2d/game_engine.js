@@ -19,9 +19,11 @@ var Game = {
 var drawCharacter = (cursor, character, characterX, characterY, characterW, characterH) => {
     cursor.beginPath();
     cursor.drawImage(character, characterX, characterY, characterW, characterH);
+    cursor.closePath();
     cursor.imageSmoothingEnabled = false;
     if(Game.grid == true){
         //show position
+        cursor.beginPath();
         cursor.font = '20px Arial';
         cursor.fillStyle = '#999';
         cursor.fillText('x='+characterX+', y='+characterY, characterX, characterY);
@@ -109,31 +111,66 @@ class Character {
                 return {x, y};
             }
         }
-        this.rotate = (angspeed) => {
-
-        }
-        this.rotateTo = (direction, time) => {
-
-        }
         this.move = (direction, speed) => {
-            //get velocity vector components
             if (speed > this.minspeed && speed < this.maxspeed){
                 this.direction = direction;
                 this.speed = speed;
                 console.log("spd: "+this.speed);
             }
+            //get velocity vector components
             var vector = this.getvector(direction, this.speed);
             this.x = this.x + vector.x;
             this.y = this.y + vector.y;
         }
         this.moveTo = (x, y, time) => {
-
+            if (time == 0){
+                //teleport
+                this.x = x;
+                this.y = y;
+            } else {
+                //animate
+            }
         }
-        this.scale = (x, y) => {
-
+        this.rotate = (angspeed) => {
+            //we were here
+            if (angspeed > this.minspeed && angspeed < this.maxspeed){
+                this.angspeed = angspeed;
+                console.log("aspd: "+this.angspeed);
+                if ((360 - this.direction) > angspeed){
+                    this.direction = this.direction + angspeed;
+                } else {
+                    this.direction = this.direction + (angspeed - (360 - this.direction))
+                }
+            }
         }
-        this.scaleTo = (x, y, time) => {
-
+        this.rotateTo = (direction, time) => {
+            console.log("dir: "+this.direction);
+            if (time == 0){
+                //teleport
+                this.direction = direction;
+            } else {
+                //animate
+            }
+        }
+        this.scale = (w, h) => {
+            //position
+            this.x = this.x - (((this.x + w)-this.x)/2);
+            this.y = this.y - (((this.y + h)-this.y)/2);
+            //size
+            this.width = this.width + w;
+            this.height = this.height + h;
+        }
+        this.scaleTo = (w, h, time) => {
+            if (time == 0){
+                //teleport
+                this.x = this.x - (((this.x*w)-this.x)/2);
+                this.y = this.y - (((this.y*h)-this.y)/2);
+                //size
+                this.width = this.width*w;
+                this.height = this.height*h;
+            } else {
+                //animate
+            }
         }
         this.applyforce = (angle, force) => {
             //get components of the future speed and present speed vectors
@@ -148,9 +185,8 @@ class Character {
             var Cy = fx.y + py.y;
             //resultant vector of the present speed and proposed speed vectors
             var resspeed = Math.sqrt((Cx**2)+(Cy**2));
-            //call rotateTo here with time derived from angspeed
-            //and use this. direction instead of this angle
-            this.move(angle, resspeed);
+            this.rotateTo(angle, this.angspeed);
+            this.move(this.direction, resspeed);
         }
     }
 }
@@ -166,7 +202,9 @@ window.onload = () => {
             if (percent == 100){
                 Game.ready = true;
             }
-            //do some error handling here
+        }
+        asset.image.onerror = () => {
+            alert(asset.name+" failed to get image");
         }
     }
 };
