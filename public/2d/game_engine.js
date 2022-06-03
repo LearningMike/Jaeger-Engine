@@ -69,6 +69,49 @@ var fps = () => {
     Game.lastframe = performance.now();
 }
 
+var mousePosition = (evt) => {
+    // Get the canvas size and position relative to the web page
+    let canvasDimensions = canvas.getBoundingClientRect();
+    // Get canvas x & y position
+    mousePos.x = Math.floor(evt.clientX - canvasDimensions.left);
+    mousePos.y = Math.floor(evt.clientY - canvasDimensions.top);
+ 
+    // Convert to coordinate graph
+    mousePos.x -= 300;
+    mousePos.y = -1 * (mousePos.y - 300);
+    return mousePos;
+}
+
+var angleXY = (x, y) => {
+    let adjacent = x;
+    let opposite = y;
+ 
+    return radiansToDegrees(Math.atan2(opposite, adjacent));
+}
+ 
+var radiansToDegrees = (rad) => {
+    if(rad < 0){
+        // Correct the bottom error by adding the negative
+        // angle to 360 to get the correct result around
+        // the whole circle
+        return (360.0 + (rad * (180 / Math.PI))).toFixed(2);
+    } else {
+        return (rad * (180 / Math.PI)).toFixed(2);
+    }
+}
+ 
+var degreesToRadians = (degrees) => {
+    return degrees * (Math.PI / 180);
+}
+
+var lineLength = (x1, y1, x2, y2) => {
+    let xS = x2 - x1;
+    xS = xS * xS;
+    let yS = y2 - y1;
+    yS = yS * yS;
+    return Math.sqrt(xS + yS);
+}
+
 class Character {
     constructor (data){
         this.name = data.name;
@@ -111,6 +154,18 @@ class Character {
                 return {x, y};
             }
         }
+        this.getrotcev = (x1, y1, x2, y2) => {
+            var direction = Math.atan2((y2-y1), (x2-x1));
+            direction *= 180 / Math.PI;
+            direction = direction + 90;
+            //just check the stack overflow examples
+            if (direction > -90 && direction < 0) {
+                direction = 360 - Math.abs(direction);
+            }
+            var magnitude = Math.sqrt(((x1-x2)**2) + ((y1-y2)**2));
+            console.log(direction+" "+magnitude);
+            return {direction, magnitude};
+        }
         this.move = (direction, speed) => {
             if (speed > this.minspeed && speed < this.maxspeed){
                 this.direction = direction;
@@ -122,34 +177,28 @@ class Character {
             this.x = this.x + vector.x;
             this.y = this.y + vector.y;
         }
-        this.moveTo = (x, y, time) => {
-            if (time == 0){
-                //teleport
-                this.x = x;
-                this.y = y;
+        this.moveTo = (x, y, speed) => {
+            //i don't know how to animate this
+            if (this.x <= (x+1) && this.x >= (x-1) && this.y <= (y+1) && this.y >= (y-1)) {
+                //do nothing
             } else {
-                //animate
+                var rotcev = this.getrotcev(this.x, this.y, x, y);
+                this.move(rotcev.direction, speed);
             }
         }
         this.rotate = (angspeed) => {
-            //we were here
-            if (angspeed > this.minspeed && angspeed < this.maxspeed){
-                this.angspeed = angspeed;
-                console.log("aspd: "+this.angspeed);
-                if ((360 - this.direction) > angspeed){
-                    this.direction = this.direction + angspeed;
-                } else {
-                    this.direction = this.direction + (angspeed - (360 - this.direction))
-                }
+            this.angspeed = angspeed;
+            if ((360 - this.direction) > angspeed){
+                this.direction = this.direction + angspeed;
+            } else {
+                this.direction = this.direction + (angspeed - (360 - this.direction))
             }
         }
-        this.rotateTo = (direction, time) => {
-            console.log("dir: "+this.direction);
-            if (time == 0){
-                //teleport
-                this.direction = direction;
+        this.rotateTo = (direction, angspeed) => {
+            if (this.direction < (direction+1) && this.direction > (direction-1)){
+                //do nothing
             } else {
-                //animate
+                this.rotate(angspeed);
             }
         }
         this.scale = (w, h) => {
@@ -159,18 +208,6 @@ class Character {
             //size
             this.width = this.width + w;
             this.height = this.height + h;
-        }
-        this.scaleTo = (w, h, time) => {
-            if (time == 0){
-                //teleport
-                this.x = this.x - (((this.x*w)-this.x)/2);
-                this.y = this.y - (((this.y*h)-this.y)/2);
-                //size
-                this.width = this.width*w;
-                this.height = this.height*h;
-            } else {
-                //animate
-            }
         }
         this.applyforce = (angle, force) => {
             //get components of the future speed and present speed vectors
@@ -185,8 +222,9 @@ class Character {
             var Cy = fx.y + py.y;
             //resultant vector of the present speed and proposed speed vectors
             var resspeed = Math.sqrt((Cx**2)+(Cy**2));
-            this.rotateTo(angle, this.angspeed);
-            this.move(this.direction, resspeed);
+            var resangle = Math.atan(Cy/Cx) * 180 / Math.PI;
+            console.log("ANGLE : "+resangle);
+            this.move(angle, resspeed);
         }
     }
 }
