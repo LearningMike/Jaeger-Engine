@@ -56,16 +56,10 @@ section {
 #looptab {
     display: none;
 }
-#scripttab {
-    display: none;
-}
 #charactermenu {
     display: block;
 }
 #loopmenu {
-    display: none;
-}
-#scriptmenu {
     display: none;
 }
 button {

@@ -83,7 +83,9 @@
     <code>'input':{...}</code><br/>
     User inputs this character has actions for.
   </p>
-  <hr/><br/>
+</details>
+<details>
+  <summary><h3>Chapter 2: Stuck in a Loop</h3></summary>
   <blockquote>
     Every character is repeatedly drawn on the screen using the data you have set in it's object. The game is made by you changing or using that data. I have provided some functions that i think will help you save time (i guess that's what a game engine is).
   </blockquote>
@@ -99,14 +101,6 @@
     <code>anything.rotateTo(direction, time)</code><br/>
     vec
   </p>
-</details>
-<details>
-  <summary><h3>Chapter 2: Stuck in a Loop</h3></summary>
-  <p>explain loop</p>
-</details>
-<details>
-  <summary><h3>Chapter 3: Following a Script</h3></summary>
-  <p>explain script</p>
 </details>
 <details>
 <summary><h3>Chapter 4: If there's a Template</h3></summary>

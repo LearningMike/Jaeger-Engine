@@ -75,20 +75,15 @@
                 <div id="loopmenu">
 
                 </div>
-                <div id="scriptmenu">
-
-                </div>
             </div>
             <div id="code">
                 <div>
                     <button id="ct" onclick="openTab('characters.js')">Characters.js</button>
                     <button id="lt" onclick="openTab('loop.js')">Loop.js</button>
-                    <button id="st" onclick="openTab('script.js')">Script.js</button>
                     <button style="float: right; font-size: x-small; background-color: black;" onclick="deleteAll()">🗑️ Delete Project</button>
                 </div>
                 <div id="charactertab" oninput="saveTab('characters.js')"></div>
                 <div id="looptab" oninput="saveTab('loop.js')"></div>
-                <div id="scripttab" oninput="saveTab('script.js')"></div>
                 <div id="pdetails" style="color: orangered;"></div>
             </div>
         </section>
@@ -98,14 +93,6 @@
         </div>
     </body>
     <script defer>
-        var scripteditor = CodeMirror(document.getElementById('scripttab'), {
-            mode:  "javascript",
-            lineNumbers: true,
-            theme: 'monokai',
-            lineWrapping: false,
-            tabSize: 4,
-            scrollbarStyle: 'overlay'
-        });
         var loopeditor = CodeMirror(document.getElementById('looptab'), {
             mode:  "javascript",
             lineNumbers: true,
@@ -133,18 +120,14 @@
             //check if project exists in memory
             const exists = localStorage.getItem(Game.name+"_ct");
             if(exists){
-                openTab('script.js');
                 openTab('loop.js');
                 openTab('characters.js');
                 window.eval(characterseditor.getDoc().getValue());
                 window.eval(loopeditor.getDoc().getValue());
-                window.eval(scripteditor.getDoc().getValue());
             } else {
                 localStorage[Game.name] = "2d";
                 saveTab('characters.js');
                 saveTab('loop.js');
-                saveTab('script.js');
-                openTab('script.js');
                 openTab('loop.js');
                 openTab('characters.js');
             }

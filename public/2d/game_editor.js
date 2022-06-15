@@ -4,13 +4,13 @@
 var compileCode = () => {
     window.location.reload();
 }
+
 var toggleGame = () => {
     if (Game.play == false){
         Game.play = true;
         document.getElementById("togglegame").innerText = "⏸ Pause";
         window.eval(characterseditor.getDoc().getValue());
         window.eval(loopeditor.getDoc().getValue());
-        window.eval(scripteditor.getDoc().getValue());
         drawGame();
     } else {
         Game.play = false;
@@ -68,14 +68,6 @@ var saveTab = (js) => {
             document.getElementById('compile').style.display = 'inline-block';
             document.getElementById('togglegame').style.display = 'none';
             break;
-        case 'script.js':
-            var code = scripteditor.getDoc().getValue();
-            //save to memory
-            localStorage.setItem(Game.name + "_st", code);
-            //show compile button
-            document.getElementById('compile').style.display = 'inline-block';
-            document.getElementById('togglegame').style.display = 'none';
-            break;
     
         default:
             break;
@@ -88,15 +80,12 @@ var openTab = (js) => {
             //highlight tab
             document.getElementById('ct').style.backgroundColor = "orangered";
             document.getElementById('lt').style.backgroundColor = "black";
-            document.getElementById('st').style.backgroundColor = "black";
             //show textarea
             document.getElementById('charactertab').style.display = "block";
             document.getElementById('looptab').style.display = "none";
-            document.getElementById('scripttab').style.display = "none";
             //show menu
             document.getElementById('charactermenu').style.display = "block";
             document.getElementById('loopmenu').style.display = "none";
-            document.getElementById('scriptmenu').style.display = "none";
             //get characters.js from memory
             characterseditor.getDoc().setValue(localStorage.getItem(Game.name+"_ct"));
             characterseditor.setSize("100%", "94vh");
@@ -106,37 +95,16 @@ var openTab = (js) => {
             //highlight tab
             document.getElementById('ct').style.backgroundColor = "black";
             document.getElementById('lt').style.backgroundColor = "orangered";
-            document.getElementById('st').style.backgroundColor = "black";
             //show textarea
             document.getElementById('charactertab').style.display = "none";
             document.getElementById('looptab').style.display = "block";
-            document.getElementById('scripttab').style.display = "none";
             //show menu
             document.getElementById('charactermenu').style.display = "none";
             document.getElementById('loopmenu').style.display = "block";
-            document.getElementById('scriptmenu').style.display = "none";
             //get loop.js from memory
             loopeditor.getDoc().setValue(localStorage.getItem(Game.name+"_lt"));
             loopeditor.setSize("100%", "94vh");
             loopeditor.refresh();
-            break;
-        case 'script.js':
-            //highlight tab
-            document.getElementById('ct').style.backgroundColor = "black";
-            document.getElementById('lt').style.backgroundColor = "black";
-            document.getElementById('st').style.backgroundColor = "orangered";
-            //show textarea
-            document.getElementById('charactertab').style.display = "none";
-            document.getElementById('looptab').style.display = "none";
-            document.getElementById('scripttab').style.display = "block";
-            //show menu
-            document.getElementById('charactermenu').style.display = "none";
-            document.getElementById('loopmenu').style.display = "none";
-            document.getElementById('scriptmenu').style.display = "block";
-            //get script.js from memory
-            scripteditor.getDoc().setValue(localStorage.getItem(Game.name+"_st"));
-            scripteditor.setSize("100%", "94vh");
-            scripteditor.refresh();
             break;
     
         default:
@@ -150,7 +118,6 @@ var deleteAll = () => {
         localStorage.removeItem(Game.name);
         localStorage.removeItem(Game.name+"_ct");
         localStorage.removeItem(Game.name+"_lt");
-        localStorage.removeItem(Game.name+"_st");
         window.location.replace("../index.html");
     }
 }

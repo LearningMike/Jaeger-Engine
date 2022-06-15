@@ -82,36 +82,6 @@ var mousePosition = (evt) => {
     return mousePos;
 }
 
-var angleXY = (x, y) => {
-    let adjacent = x;
-    let opposite = y;
- 
-    return radiansToDegrees(Math.atan2(opposite, adjacent));
-}
- 
-var radiansToDegrees = (rad) => {
-    if(rad < 0){
-        // Correct the bottom error by adding the negative
-        // angle to 360 to get the correct result around
-        // the whole circle
-        return (360.0 + (rad * (180 / Math.PI))).toFixed(2);
-    } else {
-        return (rad * (180 / Math.PI)).toFixed(2);
-    }
-}
- 
-var degreesToRadians = (degrees) => {
-    return degrees * (Math.PI / 180);
-}
-
-var lineLength = (x1, y1, x2, y2) => {
-    let xS = x2 - x1;
-    xS = xS * xS;
-    let yS = y2 - y1;
-    yS = yS * yS;
-    return Math.sqrt(xS + yS);
-}
-
 class Character {
     constructor (data){
         this.name = data.name;
@@ -154,16 +124,15 @@ class Character {
                 return {x, y};
             }
         }
-        this.getrotcev = (x1, y1, x2, y2) => {
-            var direction = Math.atan2((y2-y1), (x2-x1));
-            direction *= 180 / Math.PI;
+        this.getangle = (x1, y1, x2, y2) => {
+            var direction = Math.atan2((y1+y2), (x1+x2));
+            direction = direction * (180/Math.PI);
             direction = direction + 90;
-            //just check the stack overflow examples
-            if (direction > -90 && direction < 0) {
+            if (direction >= -90 && direction < 0) {
                 direction = 360 - Math.abs(direction);
             }
-            var magnitude = Math.sqrt(((x1-x2)**2) + ((y1-y2)**2));
-            console.log(direction+" "+magnitude);
+            var magnitude = Math.sqrt(((x1+x2)**2) + ((y1+y2)**2));
+            console.log(direction+"° :"+magnitude);
             return {direction, magnitude};
         }
         this.move = (direction, speed) => {
@@ -178,36 +147,61 @@ class Character {
             this.y = this.y + vector.y;
         }
         this.moveTo = (x, y, speed) => {
-            //i don't know how to animate this
             if (this.x <= (x+1) && this.x >= (x-1) && this.y <= (y+1) && this.y >= (y-1)) {
                 //do nothing
             } else {
-                var rotcev = this.getrotcev(this.x, this.y, x, y);
+                var rotcev = this.getangle(-this.x, -this.y, x, y);
                 this.move(rotcev.direction, speed);
             }
         }
         this.rotate = (angspeed) => {
-            this.angspeed = angspeed;
-            if ((360 - this.direction) > angspeed){
-                this.direction = this.direction + angspeed;
+            if ((this.direction+angspeed) < 0 ) {
+                this.direction = 360 + (this.direction+angspeed);
+            } else if (this.direction+angspeed > 360){
+                this.direction = (this.direction+angspeed) - 360;
             } else {
-                this.direction = this.direction + (angspeed - (360 - this.direction))
+                this.direction = this.direction + angspeed;
             }
+            this.angspeed = angspeed;
         }
         this.rotateTo = (direction, angspeed) => {
-            if (this.direction < (direction+1) && this.direction > (direction-1)){
+            if (this.direction <= (direction+1) && this.direction >= (direction-1)){
                 //do nothing
             } else {
-                this.rotate(angspeed);
-            }
+                //make sure it reaches the angle
+                if ((Math.abs(this.direction-direction)) < angspeed){
+                    angspeed = Math.abs(this.direction-direction);
+                }
+                //pick the shortest direction to turn
+                if (direction > this.direction){
+                    if ((direction - this.direction) <= 180){
+                        this.rotate(angspeed);
+                    } else {
+                        this.rotate(-angspeed);
+                    }
+                } else {
+                    if ((this.direction - direction) <= 180){
+                        this.rotate(-angspeed);
+                    } else {
+                        this.rotate(angspeed);
+                    }
+                }
+            }   
         }
         this.scale = (w, h) => {
-            //position
-            this.x = this.x - (((this.x + w)-this.x)/2);
-            this.y = this.y - (((this.y + h)-this.y)/2);
-            //size
-            this.width = this.width + w;
-            this.height = this.height + h;
+            //reposition
+            this.x = this.x - (((this.width * w)-this.width)/2);
+            this.y = this.y - (((this.height * h)-this.height)/2);
+            //resize
+            this.width = this.width * w;
+            this.height = this.height * h;
+        }
+        this.scaleTo = (width, height, speed) => {
+            if (this.width < (width+1) && this.width > (width-1) && this.height < (height+1) && this.height > (height-1)){
+                //do nothing
+            } else {
+                this.scale((1+(speed/width)), (1+(speed/height)));
+            }
         }
         this.applyforce = (angle, force) => {
             //get components of the future speed and present speed vectors
@@ -217,14 +211,20 @@ class Character {
             var anglepy = this.direction;
             var fx = this.getvector(anglefx, speedfx);
             var py = this.getvector(anglepy, speedpy);
-            //add speed vector components
-            var Cx = fx.x + py.x;
-            var Cy = fx.y + py.y;
+
             //resultant vector of the present speed and proposed speed vectors
-            var resspeed = Math.sqrt((Cx**2)+(Cy**2));
-            var resangle = Math.atan(Cy/Cx) * 180 / Math.PI;
-            console.log("ANGLE : "+resangle);
+            var resspeed = this.getangle(fx.x, fx.y, py.x, py.y).magnitude;
+            //var resangle = this.getangle(fx.x, fx.y, py.x, py.y).direction;
             this.move(angle, resspeed);
+        }
+        this.showimage = (link) => {
+            this.image.src = link;
+            this.image.onload = () => {
+                console.log(this.name+" loaded "+link);
+            }
+            asset.image.onerror = () => {
+                alert(this.name+" failed to get "+link);
+            }
         }
     }
 }

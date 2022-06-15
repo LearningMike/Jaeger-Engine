@@ -21,7 +21,7 @@ var drawGame = () => {
 
         Game.assets.forEach(character => {
 
-            //#Input
+            //#Events
             if (Game.key['KeyW'] && character.input['KeyW']){
                 character.applyforce(0, 1);
             }
