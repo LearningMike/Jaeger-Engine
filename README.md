@@ -87,22 +87,16 @@
 <details>
   <summary><h3>Chapter 2: Stuck in a Loop</h3></summary>
   <blockquote>
+    <code>var gameLoop = () => {...}</code><br/>
     Every character is repeatedly drawn on the screen using the data you have set in it's object. The game is made by you changing or using that data. I have provided some functions that i think will help you save time (i guess that's what a game engine is).
   </blockquote>
   <p>
     <code>anything.getvector(direction, magnitude)</code><br/>
     vec
   </p>
-  <p>
-    <code>anything.rotate(angspeed)</code><br/>
-    vec
-  </p>
-  <p>
-    <code>anything.rotateTo(direction, time)</code><br/>
-    vec
-  </p>
+  
 </details>
 <details>
-<summary><h3>Chapter 4: If there's a Template</h3></summary>
-<p>explain templates</p>
+<summary><h3>Chapter 3: If there's a Template</h3></summary>
+<p>explain templates and the things in them like keyevents, arrowevents, physicsevents and animations</p>
 </details>

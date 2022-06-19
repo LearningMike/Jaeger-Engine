@@ -104,6 +104,7 @@ class Character {
         this.massphysics = data.massphysics;
         this.input = data.input;
         Game.assets.push(this);
+        Game.collisionGraph.push({'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width});
         this.getvector = (direction, magnitude) => {
             //choose quadrant based on the canvas position style
             if (direction >= 0 && direction < 90 || direction == 360){
@@ -132,7 +133,6 @@ class Character {
                 direction = 360 - Math.abs(direction);
             }
             var magnitude = Math.sqrt(((x1+x2)**2) + ((y1+y2)**2));
-            console.log(direction+"° :"+magnitude);
             return {direction, magnitude};
         }
         this.move = (direction, speed) => {
@@ -221,8 +221,9 @@ class Character {
             this.image.src = link;
             this.image.onload = () => {
                 console.log(this.name+" loaded "+link);
+                this.link = link;
             }
-            asset.image.onerror = () => {
+            this.image.onerror = () => {
                 alert(this.name+" failed to get "+link);
             }
         }

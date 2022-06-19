@@ -1,7 +1,7 @@
 // @michael_abia_v1 2022
 // Frame Logic Created with Game Engine
 
-var drawGame = () => {
+var gameLoop = () => {
     var canvas = document.getElementById('screen');
     var cursor = canvas.getContext('2d');
     cursor.canvas.width = Game.width;
@@ -17,7 +17,7 @@ var drawGame = () => {
     }
 
     if (Game.play){
-        window.requestAnimationFrame(drawGame);
+        window.requestAnimationFrame(gameLoop);
 
         Game.assets.forEach(character => {
 
@@ -42,7 +42,7 @@ var drawGame = () => {
                 //-gravity
                 //character.applyforce(5, character.mass*character.gravity);
                 //-collision
-                Game.collisionGraph.push([character.x, character.y, character.height, character.width]);
+                
                 Game.collisionGraph.forEach(collider => {
                     if (collider.x <= (character.x+character.width) && (collider.x+collider.width) >= character.x && collider.y <= (character.y+character.height) && (collider.y+collider.height) >= character.y){
                         //calculate momentum before and after collision
@@ -65,6 +65,6 @@ var drawGame = () => {
             drawCharacter(cursor, character.image, character.x, character.y, character.width, character.height);
         });
     } else {
-        window.cancelAnimationFrame(drawGame);
+        window.cancelAnimationFrame(gameLoop);
     }   
 }

@@ -11,7 +11,7 @@ var toggleGame = () => {
         document.getElementById("togglegame").innerText = "⏸ Pause";
         window.eval(characterseditor.getDoc().getValue());
         window.eval(loopeditor.getDoc().getValue());
-        drawGame();
+        gameLoop();
     } else {
         Game.play = false;
         document.getElementById("togglegame").innerText = "▶️ Play";
