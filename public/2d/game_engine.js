@@ -94,18 +94,12 @@ class Character {
         this.angspeed = data.angspeed;
         this.maxspeed = data.maxspeed;
         this.minspeed = data.minspeed;
-        this.mass = data.mass;
-        this.acceleration = data.acceleration;
         this.link = data.link;
         this.image = new Image();
-        this.physics = data.physics;
-        this.gravity = data.gravity;
-        this.friction = data.friction;
-        this.massphysics = data.massphysics;
         this.input = data.input;
         Game.assets.push(this);
         Game.collisionGraph.push({'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width});
-        this.getvector = (direction, magnitude) => {
+        this.getvectorcomp = (direction, magnitude) => {
             //choose quadrant based on the canvas position style
             if (direction >= 0 && direction < 90 || direction == 360){
                 var x = magnitude * Math.cos((90-direction) * Math.PI / 180);
@@ -125,7 +119,7 @@ class Character {
                 return {x, y};
             }
         }
-        this.getangle = (x1, y1, x2, y2) => {
+        this.getvector = (x1, y1, x2, y2) => {
             var direction = Math.atan2((y1+y2), (x1+x2));
             direction = direction * (180/Math.PI);
             direction = direction + 90;
@@ -142,7 +136,7 @@ class Character {
                 console.log("spd: "+this.speed);
             }
             //get velocity vector components
-            var vector = this.getvector(direction, this.speed);
+            var vector = this.getvectorcomp(direction, this.speed);
             this.x = this.x + vector.x;
             this.y = this.y + vector.y;
         }
@@ -150,8 +144,8 @@ class Character {
             if (this.x <= (x+1) && this.x >= (x-1) && this.y <= (y+1) && this.y >= (y-1)) {
                 //do nothing
             } else {
-                var rotcev = this.getangle(-this.x, -this.y, x, y);
-                this.move(rotcev.direction, speed);
+                var vector = this.getvector(-this.x, -this.y, x, y);
+                this.move(vector.direction, speed);
             }
         }
         this.rotate = (angspeed) => {
@@ -203,20 +197,6 @@ class Character {
                 this.scale((1+(speed/width)), (1+(speed/height)));
             }
         }
-        this.applyforce = (angle, force) => {
-            //get components of the future speed and present speed vectors
-            var speedfx = this.speed+(force/this.mass);
-            var anglefx = angle;
-            var speedpy = this.speed;
-            var anglepy = this.direction;
-            var fx = this.getvector(anglefx, speedfx);
-            var py = this.getvector(anglepy, speedpy);
-
-            //resultant vector of the present speed and proposed speed vectors
-            var resspeed = this.getangle(fx.x, fx.y, py.x, py.y).magnitude;
-            //var resangle = this.getangle(fx.x, fx.y, py.x, py.y).direction;
-            this.move(angle, resspeed);
-        }
         this.showimage = (link) => {
             this.image.src = link;
             this.image.onload = () => {
@@ -226,6 +206,9 @@ class Character {
             this.image.onerror = () => {
                 alert(this.name+" failed to get "+link);
             }
+        }
+        this.playsound = (link) => {
+
         }
     }
 }

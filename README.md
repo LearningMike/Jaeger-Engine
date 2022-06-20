@@ -52,32 +52,8 @@
     The minimum speed allowed or possible.
   </p>
   <p>
-    <code>'mass':9</code><br/>
-    I like to call it inertial influence, this is only used when physics is turned on.
-  </p>
-  <p>
-    <code>'acceleration':0</code><br/>
-    The starting or current acceleration, how much it changes its speed by.
-  </p>
-  <p>
     <code>'link':'https://link-to-image'</code><br/>
     Link to the image that that visually represents this, could be a jpeg or png or animated gif.
-  </p>
-  <p>
-    <code>'physics':true</code><br/>
-    Whether physics should be used or not, physics includes inertia, gravity, friction and collisions.
-  </p>
-  <p>
-    <code>'gravity':0.9</code><br/>
-    Newt would be embarassed, but this one works without crashing your computer.
-  </p>
-  <p>
-    <code>'friction':0.7</code><br/>
-    Friction coefficient or something, it's how contact affects speed or acceleration.
-  </p>
-  <p>
-    <code>'massphysics':false</code><br/>
-    If you want to crash your computer, you can turn this on. Used for planetary physics, fluid simulations? It's more accurate but use at your CPU's risk.
   </p>
   <p>
     <code>'input':{...}</code><br/>
@@ -91,12 +67,61 @@
     Every character is repeatedly drawn on the screen using the data you have set in it's object. The game is made by you changing or using that data. I have provided some functions that i think will help you save time (i guess that's what a game engine is).
   </blockquote>
   <p>
-    <code>anything.getvector(direction, magnitude)</code><br/>
-    vec
+    <code>anything.getvectorcomp(direction, magnitude)</code><br/>
+    ...
   </p>
-  
+  <p>
+    <code>anything.getvector(x1, y1, x2, y2)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.move(direction, speed)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.moveTo(x, y, speed)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.rotate(angspeed)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.rotateTo(direction, angspeed)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.scale(w, h)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.scaleTo(width, height, speed)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.showimage(link)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.playsound(link)</code><br/>
+    ...
+  </p>
 </details>
 <details>
 <summary><h3>Chapter 3: If there's a Template</h3></summary>
-<p>explain templates and the things in them like keyevents, arrowevents, physicsevents and animations</p>
+  <blockquote>
+    explain templates
+  </blockquote>
+  <p>
+    <code>//key events</code><br/>
+    explain key events
+  </p>
+  <p>
+    <code>//arrow events</code><br/>
+    explain arrow events
+  </p>
+  <p>
+    <code>//collison events</code><br/>
+    explain collision events
+  </p>
 </details>
