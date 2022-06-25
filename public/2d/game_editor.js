@@ -11,6 +11,7 @@ var toggleGame = () => {
         document.getElementById("togglegame").innerText = "⏸ Pause";
         window.eval(characterseditor.getDoc().getValue());
         window.eval(loopeditor.getDoc().getValue());
+        Game.firstFrame = performance.now();
         gameLoop();
     } else {
         Game.play = false;
@@ -126,25 +127,5 @@ var createCharacter = (type) => {
     //switch to character tab first
     openTab('characters.js');
 
-    //then add the character object to the character.js tab
-    switch (type) {
-        case b:
-
-            break;
-
-        case c:
-            
-            break;
-        
-        case n:
-            
-            break;
-
-        case p:
-            
-            break;
     
-        default:
-            break;
-    }
 }

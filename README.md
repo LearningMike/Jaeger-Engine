@@ -12,7 +12,7 @@
     The Character object is defined in characters.js and contains data that is used by the game engine to decide the characters state or behaviour on screen.
   </blockquote>
   <p>
-    <code>'name':'mario',</code><br/>
+    <code>'name':'mario'</code><br/>
     Like mario, block or powerup, it's a character's name.
   </p>
   <p>
@@ -61,7 +61,7 @@
   </p>
 </details>
 <details>
-  <summary><h3>Chapter 2: Stuck in a Loop</h3></summary>
+  <summary><h3>Chapter 2: Acting in a Loop</h3></summary>
   <blockquote>
     <code>var gameLoop = () => {...}</code><br/>
     Every character is repeatedly drawn on the screen using the data you have set in it's object. The game is made by you changing or using that data. I have provided some functions that i think will help you save time (i guess that's what a game engine is).
@@ -103,25 +103,65 @@
     ...
   </p>
   <p>
-    <code>anything.playsound(link)</code><br/>
+    <code>anything.playsound(link, loop)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.showtext(cursor, text, size, position)</code><br/>
     ...
   </p>
 </details>
 <details>
-<summary><h3>Chapter 3: If there's a Template</h3></summary>
+  <summary><h3>Chapter 3: According to Events</h3></summary>
   <blockquote>
-    explain templates
+    <code>
+      //Events
+      if(condition){...}
+    </code><br/>
+    The character remains the same as it is drawn repeatedly, unless something changes.
+    Events are what check for this change in character. Games are a battlefield of events.
   </blockquote>
   <p>
-    <code>//key events</code><br/>
+    <code>
+      //Time-Events
+      if (time() == 3){...}
+    </code><br/>
+    explain time events
+  </p>
+  <p>
+    <code>
+      //Key-Events
+      if (Game.key['KeyW'] == true){...}
+    </code><br/>
     explain key events
   </p>
   <p>
-    <code>//arrow events</code><br/>
-    explain arrow events
+    <code>
+      //Mouse-Events
+    </code><br/>
+    explain mouse events
   </p>
   <p>
-    <code>//collison events</code><br/>
+    <code>
+      //Collision-Events
+      if (character.overlapping){
+        if (character.name == 'mario' && collider.n == 'powerup'){...}
+      }
+    </code><br/>
     explain collision events
   </p>
+</details>
+<details>
+  <summary><h3>Making it Yours</h3></summary>
+  <p>
+    Variables<br/>
+    explain how you can set custom variables in characters.js and use them to create custom events
+  </p>
+  <p>
+    Events<br/>
+    explain how user can create or nest or create and nest events
+  </p>
+</details>
+<details>
+  <summary><h3>Chapter α : Another Dimension</h3></summary>
 </details>

@@ -5,12 +5,14 @@ var Game = {
     "name":"",
     "height": window.innerHeight,
     "width" : window.innerWidth,
-    "lastframe" : performance.now(),
+    "firstFrame" : 0,
+    "lastFrame" : 0,
     "assets" : [],
     "ready" : false,
     "play" : false,
     "grid" : false,
     "fps" : false,
+    "currentFPS" : 0,
     "online" : false,
     "key" : {},
     "collisionGraph": []
@@ -63,10 +65,10 @@ var graph = (cursor) => {
 
 var fps = () => {
     //calculate the time difference and set fps
-    var currentFPS = Math.round(1000/((performance.now() - Game.lastframe)));
+    var currentFPS = Math.round(1000/((performance.now() - Game.lastFrame)));
+    Game.currentFPS = currentFPS;
     document.getElementById("stat").innerText = " FPS: "+currentFPS;
-    document.getElementById("pdetails").innerText = ":: 2D/" + Game.name + " | FPS: "+currentFPS;
-    Game.lastframe = performance.now();
+    Game.lastFrame = performance.now();
 }
 
 var mousePosition = (evt) => {
@@ -82,9 +84,31 @@ var mousePosition = (evt) => {
     return mousePos;
 }
 
+var time = () => {
+    //get the number of seconds since game started
+    return Math.floor((performance.now() - Game.firstFrame)/1000);
+}
+
+var enterScene = (character) => {
+    if (!character.visible){
+        Game.assets.push(character);
+        Game.collisionGraph.push({'n':character.name,'x':character.x, 'y':character.y, 'h':character.height, 'w':character.width});
+        character.visible = true;
+    }
+}
+
+var exitScene = (character) => {
+    if (character.visible){
+        Game.assets.push(character);
+        Game.collisionGraph.push({'n':character.name,'x':character.x, 'y':character.y, 'h':character.height, 'w':character.width});
+        character.visible = false;
+    }
+}
+
 class Character {
     constructor (data){
         this.name = data.name;
+        this.visible = data.visible;
         this.x = data.x;
         this.y = data.y;
         this.width = data.width;
@@ -97,8 +121,10 @@ class Character {
         this.link = data.link;
         this.image = new Image();
         this.input = data.input;
-        Game.assets.push(this);
-        Game.collisionGraph.push({'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width});
+        if (data.visible){
+            Game.assets.push(this);
+            Game.collisionGraph.push({'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width});
+        }
         this.getvectorcomp = (direction, magnitude) => {
             //choose quadrant based on the canvas position style
             if (direction >= 0 && direction < 90 || direction == 360){
@@ -198,17 +224,56 @@ class Character {
             }
         }
         this.showimage = (link) => {
-            this.image.src = link;
-            this.image.onload = () => {
-                console.log(this.name+" loaded "+link);
-                this.link = link;
-            }
-            this.image.onerror = () => {
-                alert(this.name+" failed to get "+link);
+            if (link != this.link){
+                this.image.src = link;
+                this.image.onload = () => {
+                    console.log(this.name+" loaded "+link);
+                    this.link = link;
+                }
+                this.image.onerror = () => {
+                    alert(this.name+" failed to get "+link);
+                }
             }
         }
         this.playsound = (link) => {
 
+        }
+        this.showtext = (cursor, text, size, position) => {
+            cursor.beginPath();
+            cursor.font = size+'px Arial';
+            cursor.fillStyle = '#FFF';
+            text = text.toString();
+            switch (position) {
+                case 'top':
+                    var positionX = this.x + (this.width/2) - ((text.length*size)/4);
+                    var positionY = this.y - size;
+                    break;
+
+                case 'bottom':
+                    var positionX = this.x + (this.width/2) - ((text.length*size)/4);
+                    var positionY = this.y + this.height + size;
+                    break;
+                
+                case 'right':
+                    var positionX = this.x + this.width + size;
+                    var positionY = this.y + (this.height/2);
+                    break;
+
+                case 'left':
+                    var positionX = this.x - size;
+                    var positionY = this.y + (this.height/2);
+                    break;
+                    
+                case 'center':
+                    var positionX = this.x + (this.width/2) - ((text.length*size)/4);
+                    var positionY = this.y + (this.height/2);
+                    break;
+            
+                default:
+                    break;
+            }
+            cursor.fillText(text, positionX, positionY);
+            cursor.closePath();
         }
     }
 }

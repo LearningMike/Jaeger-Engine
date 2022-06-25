@@ -61,19 +61,21 @@
                     <button onclick="exportGame()">🎮 Export</button>
                 </div>
                 <div id="charactermenu">
-                    <div class="list">
+                    <div class="list" id="clist">
                     </div>
                     <div id="type">
-                        <div style="color: antiquewhite; font-weight: bold; font-family: sans-serif;">Add Character: </div>
-                        &nbsp;&nbsp;&nbsp;
-                        <button onclick="createCharacter('b')">Background</button>
-                        <button onclick="createCharacter('c')">Collision</button>
-                        <button onclick="createCharacter('n')">NPC</button>
-                        <button onclick="createCharacter('p')">Player</button>
+                        <button onclick="createCharacter()">Add Character</button>
                     </div>
                 </div>
                 <div id="loopmenu">
-
+                    <div class="list" id="elist">
+                    </div>
+                    <div id="type">
+                        <button onclick="addEvent('t')">Add Time Event</button>
+                        <button onclick="addEvent('k')">Add Key Event</button>
+                        <button onclick="addEvent('m')">Add Mouse Event</button>
+                        <button onclick="addEvent('c')">Add Collision Event</button>
+                    </div>
                 </div>
             </div>
             <div id="code">
