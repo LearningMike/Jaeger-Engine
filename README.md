@@ -114,45 +114,46 @@
 <details>
   <summary><h3>Chapter 3: According to Events</h3></summary>
   <blockquote>
-    <code>
+    <pre><code>
       //Events
       if(condition){...}
-    </code><br/>
+    </code></pre><br/>
     The character remains the same as it is drawn repeatedly, unless something changes.
     Events are what check for this change in character. Games are a battlefield of events.
   </blockquote>
   <p>
-    <code>
+    <pre><code>
       //Time-Events
-      if (time() == 3){...}
-    </code><br/>
+      if (Game.time == 3){...}
+    </code></pre><br/>
     explain time events
   </p>
   <p>
-    <code>
+    <pre><code>
       //Key-Events
       if (Game.key['KeyW'] == true){...}
-    </code><br/>
+    </code></pre><br/>
     explain key events
   </p>
   <p>
-    <code>
+    <pre><code>
       //Mouse-Events
-    </code><br/>
+      if (Game.mousePosition.y > 20){...}
+    </code></pre><br/>
     explain mouse events
   </p>
   <p>
-    <code>
+    <pre><code>
       //Collision-Events
-      if (character.overlapping){
+      if (character.overlaps){
         if (character.name == 'mario' && collider.n == 'powerup'){...}
       }
-    </code><br/>
+    </code></pre><br/>
     explain collision events
   </p>
 </details>
 <details>
-  <summary><h3>Making it Yours</h3></summary>
+  <summary><h3>Epilogue: Making it Yours</h3></summary>
   <p>
     Variables<br/>
     explain how you can set custom variables in characters.js and use them to create custom events
@@ -163,5 +164,5 @@
   </p>
 </details>
 <details>
-  <summary><h3>Chapter α : Another Dimension</h3></summary>
+  <summary><h3>Chapter α : One More Dimension</h3></summary>
 </details>

@@ -7,6 +7,7 @@ var Game = {
     "width" : window.innerWidth,
     "firstFrame" : 0,
     "lastFrame" : 0,
+    "time": 0,
     "assets" : [],
     "ready" : false,
     "play" : false,
@@ -15,6 +16,7 @@ var Game = {
     "currentFPS" : 0,
     "online" : false,
     "key" : {},
+    "mousePosition": {},
     "collisionGraph": []
 }
 
@@ -71,25 +73,7 @@ var fps = () => {
     Game.lastFrame = performance.now();
 }
 
-var mousePosition = (evt) => {
-    // Get the canvas size and position relative to the web page
-    let canvasDimensions = canvas.getBoundingClientRect();
-    // Get canvas x & y position
-    mousePos.x = Math.floor(evt.clientX - canvasDimensions.left);
-    mousePos.y = Math.floor(evt.clientY - canvasDimensions.top);
- 
-    // Convert to coordinate graph
-    mousePos.x -= 300;
-    mousePos.y = -1 * (mousePos.y - 300);
-    return mousePos;
-}
-
-var time = () => {
-    //get the number of seconds since game started
-    return Math.floor((performance.now() - Game.firstFrame)/1000);
-}
-
-var enterScene = (character) => {
+var spawn = (character) => {
     if (!character.visible){
         Game.assets.push(character);
         Game.collisionGraph.push({'n':character.name,'x':character.x, 'y':character.y, 'h':character.height, 'w':character.width});
@@ -97,7 +81,7 @@ var enterScene = (character) => {
     }
 }
 
-var exitScene = (character) => {
+var deSpawn = (character) => {
     if (character.visible){
         Game.assets.push(character);
         Game.collisionGraph.push({'n':character.name,'x':character.x, 'y':character.y, 'h':character.height, 'w':character.width});
@@ -236,7 +220,8 @@ class Character {
             }
         }
         this.playsound = (link) => {
-
+            var audio = new Audio(link);
+            audio.play();
         }
         this.showtext = (cursor, text, size, position) => {
             cursor.beginPath();
@@ -307,3 +292,22 @@ window.onkeyup = input = (e) => {
     Game.key[e.code] = false;
 
 };
+
+window.onmousemove = input = (e) => {
+    const canvas = document.getElementById('screen');
+    const rect = canvas.getBoundingClientRect();
+    Game.mousePosition = {
+        x: ((e.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
+        y: ((e.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
+    };
+}
+
+window.onclick = input = (e) => {
+
+}
+
+window.ondblclick = input = (e) => {
+
+}
+
+//do mouse/pointer events, touch events, device motion and orientation, drag, drop, gamepad input?
