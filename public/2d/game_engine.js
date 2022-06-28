@@ -8,7 +8,8 @@ var Game = {
     "firstFrame" : 0,
     "lastFrame" : 0,
     "time": 0,
-    "assets" : [],
+    "assets" : {},
+    "assetcount":0,
     "ready" : false,
     "play" : false,
     "grid" : false,
@@ -16,8 +17,10 @@ var Game = {
     "currentFPS" : 0,
     "online" : false,
     "key" : {},
+    "click": {},
+    "dj":{},
     "mousePosition": {},
-    "collisionGraph": []
+    "collisionGraph": {}
 }
 
 var drawCharacter = (cursor, character, characterX, characterY, characterW, characterH) => {
@@ -73,26 +76,11 @@ var fps = () => {
     Game.lastFrame = performance.now();
 }
 
-var spawn = (character) => {
-    if (!character.visible){
-        Game.assets.push(character);
-        Game.collisionGraph.push({'n':character.name,'x':character.x, 'y':character.y, 'h':character.height, 'w':character.width});
-        character.visible = true;
-    }
-}
-
-var deSpawn = (character) => {
-    if (character.visible){
-        Game.assets.push(character);
-        Game.collisionGraph.push({'n':character.name,'x':character.x, 'y':character.y, 'h':character.height, 'w':character.width});
-        character.visible = false;
-    }
-}
-
 class Character {
     constructor (data){
         this.name = data.name;
         this.visible = data.visible;
+        this.instance = data.instance;
         this.x = data.x;
         this.y = data.y;
         this.width = data.width;
@@ -105,9 +93,35 @@ class Character {
         this.link = data.link;
         this.image = new Image();
         this.input = data.input;
-        if (data.visible){
-            Game.assets.push(this);
-            Game.collisionGraph.push({'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width});
+        if (data.visible && !Game.play){
+            Game.assets[this.name] = this;
+            Game.collisionGraph[this.name] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
+            Game.assetcount = Game.assetcount+1;
+        }
+        this.spawn = (x, y, direction) => {
+            if (!this.visible || this.instance > 0){
+                if (this.instance == 0){
+                    Game.assets[this.name] = this;
+                    Game.collisionGraph[this.name] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
+        
+                    Game.assetcount = Game.assetcount+1;
+                    this.visible = true;
+                    this.showimage(this.link, this.instance);
+                } else {
+                    this.x = x;
+                    this.y = y;
+                    this.direction = direction;
+                    const instatime = Math.floor((performance.now() - Game.firstFrame));
+                    this.instance = instatime;
+                    Game.assets[this.name+"_"+instatime] = this;
+                    Game.collisionGraph[this.name+"_"+instatime] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
+                    
+                    Game.assetcount = Game.assetcount+1;
+                    this.visible = true;
+                    this.showimage(this.link, instatime);
+                }
+                
+            }
         }
         this.getvectorcomp = (direction, magnitude) => {
             //choose quadrant based on the canvas position style
@@ -143,7 +157,6 @@ class Character {
             if (speed > this.minspeed && speed < this.maxspeed){
                 this.direction = direction;
                 this.speed = speed;
-                console.log("spd: "+this.speed);
             }
             //get velocity vector components
             var vector = this.getvectorcomp(direction, this.speed);
@@ -207,8 +220,8 @@ class Character {
                 this.scale((1+(speed/width)), (1+(speed/height)));
             }
         }
-        this.showimage = (link) => {
-            if (link != this.link){
+        this.showimage = (link, instance) => {
+            if (link != this.link || (this.instance == instance && instance > 0)){
                 this.image.src = link;
                 this.image.onload = () => {
                     console.log(this.name+" loaded "+link);
@@ -219,9 +232,25 @@ class Character {
                 }
             }
         }
-        this.playsound = (link) => {
-            var audio = new Audio(link);
-            audio.play();
+        this.animate = (linklist) => {
+
+        }
+        this.playsound = (loop, link) => {
+            if (Game.dj[link] != this.name+"_"+this.instance){
+                Game.dj[link] = this.name+"_"+this.instance;
+                var audio = new Audio(link);
+                audio.play();
+                console.log(this.name+" loaded "+link);
+                audio.onended = () => {
+                    Game.dj[link] = null;
+                    if (loop) {
+                        this.playsound(loop, link);
+                    }
+                }
+                audio.onerror = () => {
+                    alert(this.name+" failed to get "+link);
+                }
+            }
         }
         this.showtext = (cursor, text, size, position) => {
             cursor.beginPath();
@@ -265,9 +294,11 @@ class Character {
 
 window.onload = () => {
     //load all starting assets images, if assets have multiple images in future do a nested loop
-    for (i = 0; i < Game.assets.length; i++) {
+    var len = 0;
+    for (i in Game.assets) {
+        len = len + 1;
         const asset = Game.assets[i];
-        const percent = ((i+1)/Game.assets.length)*100;
+        const percent = ((len)/Game.assetcount)*100;
         asset.image.src = asset.link;
         asset.image.onload = () => {
             console.log(asset.name+" loaded "+percent+"% complete");
@@ -283,31 +314,30 @@ window.onload = () => {
 
 window.onkeydown = input = (e) => {
 
-    Game.key[e.code] = true;
+    Game.key[e.code] = e;
 
 };
 
 window.onkeyup = input = (e) => {
 
-    Game.key[e.code] = false;
+    Game.key[e.code] = null;
+    delete Game.key[e.code];
 
 };
 
 window.onmousemove = input = (e) => {
+
     const canvas = document.getElementById('screen');
     const rect = canvas.getBoundingClientRect();
     Game.mousePosition = {
         x: ((e.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
         y: ((e.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
     };
+
 }
 
 window.onclick = input = (e) => {
 
-}
-
-window.ondblclick = input = (e) => {
+    Game.click[e.type] = e;
 
 }
-
-//do mouse/pointer events, touch events, device motion and orientation, drag, drop, gamepad input?

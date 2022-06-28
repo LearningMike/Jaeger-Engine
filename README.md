@@ -16,6 +16,10 @@
     Like mario, block or powerup, it's a character's name.
   </p>
   <p>
+    <code>'visible':true</code><br/>
+    Wether the item should start visible in the scene or get in later.
+  </p>
+  <p>
     <code>'x':50</code><br/>
     The horizontal position, visible from 0 (left) to the value of the screen width (right).
   </p>
@@ -67,6 +71,14 @@
     Every character is repeatedly drawn on the screen using the data you have set in it's object. The game is made by you changing or using that data. I have provided some functions that i think will help you save time (i guess that's what a game engine is).
   </blockquote>
   <p>
+    <code>anything.spawn(x, y, direction)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.despawn()</code><br/>
+    ...
+  </p>
+  <p>
     <code>anything.getvectorcomp(direction, magnitude)</code><br/>
     ...
   </p>
@@ -103,7 +115,11 @@
     ...
   </p>
   <p>
-    <code>anything.playsound(link, loop)</code><br/>
+    <code>anything.animate(loop, linklist)</code><br/>
+    ...
+  </p>
+  <p>
+    <code>anything.playsound(loop, link)</code><br/>
     ...
   </p>
   <p>
@@ -116,39 +132,43 @@
   <blockquote>
     <pre><code>
       //Events
-      if(condition){...}
-    </code></pre><br/>
+      if(character.name == 'mario'){...}
+    </code></pre>
     The character remains the same as it is drawn repeatedly, unless something changes.
-    Events are what check for this change in character. Games are a battlefield of events.
+    Events are what check for this state of the character and allow you to pick specific characters according to their values. 
+    Games are a battlefield of events.
   </blockquote>
   <p>
     <pre><code>
       //Time-Events
       if (Game.time == 3){...}
-    </code></pre><br/>
+    </code></pre>
     explain time events
   </p>
   <p>
     <pre><code>
       //Key-Events
       if (Game.key['KeyW'] == true){...}
-    </code></pre><br/>
+    </code></pre>
     explain key events
   </p>
   <p>
     <pre><code>
       //Mouse-Events
       if (Game.mousePosition.y > 20){...}
-    </code></pre><br/>
+    </code></pre>
     explain mouse events
   </p>
   <p>
     <pre><code>
       //Collision-Events
-      if (character.overlaps){
+      for (box in Game.collisionGraph) {
+        var collider = Game.collisionGraph[box];
+
         if (character.name == 'mario' && collider.n == 'powerup'){...}
+      
       }
-    </code></pre><br/>
+    </code></pre>
     explain collision events
   </p>
 </details>
