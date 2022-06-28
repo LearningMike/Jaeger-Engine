@@ -161,13 +161,11 @@
   </p>
   <p>
     <pre><code>
-      //Collision-Events
-      for (box in Game.collisionGraph) {
-        var collider = Game.collisionGraph[box];
-
-        if (character.name == 'mario' && collider.n == 'powerup'){...}
-      
-      }
+        //Collision-Events
+        for (box in Game.collisionGraph) {
+          var collider = Game.collisionGraph[box];
+          if (character.name == 'mario' && collider.n == 'powerup'){...}
+        }
     </code></pre>
     explain collision events
   </p>

@@ -123,6 +123,24 @@ class Character {
                 
             }
         }
+        this.despawn = () => {
+            if (!this.visible || this.instance > 0){
+                if (this.instance == 0){
+                    delete Game.assets[this.name];
+                    delete Game.collisionGraph[this.name];
+        
+                    Game.assetcount = Game.assetcount-1;
+                    this.visible = false;
+                } else {
+                    delete Game.assets[this.name+"_"+this.instance];
+                    delete Game.collisionGraph[this.name+"_"+this.instance];
+                    
+                    Game.assetcount = Game.assetcount-1;
+                    this.visible = false;
+                }
+                
+            }
+        }
         this.getvectorcomp = (direction, magnitude) => {
             //choose quadrant based on the canvas position style
             if (direction >= 0 && direction < 90 || direction == 360){
