@@ -23,9 +23,9 @@ var Game = {
     "collisionGraph": {}
 }
 
-var drawCharacter = (cursor, character, characterX, characterY, characterW, characterH) => {
+var drawCharacter = (cursor, character) => {
     cursor.beginPath();
-    cursor.drawImage(character, characterX, characterY, characterW, characterH);
+    cursor.drawImage(character.image, character.x, character.y, character.width, character.height);
     cursor.closePath();
     cursor.imageSmoothingEnabled = false;
     if(Game.grid == true){
@@ -33,7 +33,7 @@ var drawCharacter = (cursor, character, characterX, characterY, characterW, char
         cursor.beginPath();
         cursor.font = '20px Arial';
         cursor.fillStyle = '#999';
-        cursor.fillText('x='+characterX+', y='+characterY, characterX, characterY);
+        cursor.fillText('x='+character.x+', y='+character.y, character.x, character.y);
     }
 }
 
@@ -112,8 +112,8 @@ class Character {
                     this.y = y;
                     this.direction = direction;
                     const instatime = Math.floor((performance.now() - Game.firstFrame));
-                    this.instance = instatime;
                     Game.assets[this.name+"_"+instatime] = this;
+                    Game.assets[this.name+"_"+instatime].instance = instatime;
                     Game.collisionGraph[this.name+"_"+instatime] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
                     
                     Game.assetcount = Game.assetcount+1;
@@ -123,8 +123,8 @@ class Character {
                 
             }
         }
-        this.despawn = () => {
-            if (!this.visible || this.instance > 0){
+        this.despawn = (asset) => {
+            if (this.visible || this.instance > 0){
                 if (this.instance == 0){
                     delete Game.assets[this.name];
                     delete Game.collisionGraph[this.name];
@@ -132,8 +132,8 @@ class Character {
                     Game.assetcount = Game.assetcount-1;
                     this.visible = false;
                 } else {
-                    delete Game.assets[this.name+"_"+this.instance];
-                    delete Game.collisionGraph[this.name+"_"+this.instance];
+                    delete Game.assets[asset];
+                    delete Game.collisionGraph[asset];
                     
                     Game.assetcount = Game.assetcount-1;
                     this.visible = false;
