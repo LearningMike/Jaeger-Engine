@@ -123,9 +123,25 @@ var deleteAll = () => {
     }
 }
 
-var createCharacter = (type) => {
+var createCharacter = () => {
     //switch to character tab first
     openTab('characters.js');
 
-    
+    //concatenate object string
+    var objectstring = "\n\nvar "+document.getElementById('cchname').value+" = new Character({\n\t'name':'"+document.getElementById('cchname').value+"',\n\t'visible':"+document.getElementById('cchvisible').checked+",\n\t'instance':"+document.getElementById('cchinstance').value+",\n\t'x':"+document.getElementById('cchx').value+",\n\t'y':"+document.getElementById('cchy').value+",\n\t'width':"+document.getElementById('cchwidth').value+",\n\t'height':"+document.getElementById('cchheight').value+",\n\t'direction': "+document.getElementById('cchdirection').value+",\n\t'speed':"+document.getElementById('cchspeed').value+",\n\t'angspeed':0,\n\t'maxspeed':20,\n\t'minspeed':0,\n\t'link':'../assets/pic1.png',\n\t'input':{},\n\t'custom':{}\n});";
+    var newcode = characterseditor.getDoc().getValue()+objectstring;
+    localStorage.setItem(Game.name + "_ct", newcode);
+    compileCode();
+}
+
+var showPop = (id) => {
+    //show popup
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById(id).style.display = 'block';
+}
+
+var hidePop = () => {
+    //close popup
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('cch').style.display = 'none';
 }

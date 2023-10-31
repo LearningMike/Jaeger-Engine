@@ -64,7 +64,7 @@
                     <div class="list" id="clist">
                     </div>
                     <div id="type">
-                        <button onclick="createCharacter()">Add Character</button>
+                        <button onclick="showPop('cch')">Add Character</button>
                     </div>
                 </div>
                 <div id="loopmenu">
@@ -90,6 +90,19 @@
             </div>
         </section>
         <div id="popup">
+            <button onclick="hidePop()">✕</button>
+            <div id="cch" style="padding: 50px;">
+                <br>Character Name: <input id="cchname" type="text">
+                <br>Visible: <input id="cchvisible" type="checkbox" checked>
+                <br>Instance: <input id="cchinstance" type="number" value="0">
+                <br>X: <input id="cchx" type="number" value="200">
+                <br>Y: <input id="cchy" type="number" value="100">
+                <br>Width: <input id="cchwidth" type="number" value="50">
+                <br>Height: <input id="cchheight" type="number" value="50">
+                <br>Direction: <input id="cchdirection" type="number" value="0" max="360" min="0">
+                <br>Speed: <input id="cchspeed" type="number" value="0" max="20">
+                <br><br><br><button onclick="createCharacter()" style="bottom: 0px; font-size: large; border-style: orangered;"> Create Character </button>
+            </div>
         </div>
         <div id="stat">
         </div>

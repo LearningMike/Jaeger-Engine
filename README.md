@@ -20,6 +20,10 @@
     Wether the item should start visible in the scene or get in later.
   </p>
   <p>
+    <code>'instance':0</code><br/>
+    Wether the item is a single object (0) or will be instances (1-above)
+  </p>
+  <p>
     <code>'x':50</code><br/>
     The horizontal position, visible from 0 (left) to the value of the screen width (right).
   </p>
@@ -36,7 +40,7 @@
     The vertical span, drawn from the value of y (50) to to this value of the height (100).
   </p>
   <p>
-    <code>'direction':90</code><br/>
+    <code>'direction':0</code><br/>
     The clockwise angle around its imaginary z-axis, in degrees 0/360 (up) to 90 (right), to 180 (down), to 270 (left).  
   </p>
   <p>
@@ -63,6 +67,10 @@
     <code>'input':{...}</code><br/>
     User inputs this character has actions for.
   </p>
+  <p>
+    <code>'custom':{...}</code><br/>
+    Custom variables for data like score, health etc..
+  </p>
 </details>
 <details>
   <summary><h3>Chapter 2: Acting in a Loop</h3></summary>
@@ -70,14 +78,6 @@
     <code>var gameLoop = () => {...}</code><br/>
     Every character is repeatedly drawn on the screen using the data you have set in it's object. The game is made by you changing or using that data. I have provided some functions that i think will help you save time (i guess that's what a game engine is).
   </blockquote>
-  <p>
-    <code>anything.spawn(x, y, direction)</code><br/>
-    ...
-  </p>
-  <p>
-    <code>anything.despawn()</code><br/>
-    ...
-  </p>
   <p>
     <code>anything.getvectorcomp(direction, magnitude)</code><br/>
     ...
@@ -87,7 +87,7 @@
     ...
   </p>
   <p>
-    <code>anything.move(direction, speed)</code><br/>
+    <code>anything.move(speed)</code><br/>
     ...
   </p>
   <p>
@@ -103,7 +103,7 @@
     ...
   </p>
   <p>
-    <code>anything.scale(w, h)</code><br/>
+    <code>anything.scale(xw, yh)</code><br/>
     ...
   </p>
   <p>
@@ -111,7 +111,7 @@
     ...
   </p>
   <p>
-    <code>anything.showimage(link)</code><br/>
+    <code>anything.showimage(link, asset)</code><br/>
     ...
   </p>
   <p>
@@ -168,17 +168,6 @@
         }
     </code></pre>
     explain collision events
-  </p>
-</details>
-<details>
-  <summary><h3>Epilogue: Making it Yours</h3></summary>
-  <p>
-    Variables<br/>
-    explain how you can set custom variables in characters.js and use them to create custom events
-  </p>
-  <p>
-    Events<br/>
-    explain how user can create or nest or create and nest events
   </p>
 </details>
 <details>

@@ -24,9 +24,14 @@ var Game = {
 }
 
 var drawCharacter = (cursor, character) => {
+    cursor.save();
+    cursor.translate(character.x+character.width/2, character.y+character.height/2);
+    cursor.rotate(character.direction*Math.PI/180.0);
+    cursor.translate(-character.x-character.width/2, -character.y-character.height/2);
     cursor.beginPath();
     cursor.drawImage(character.image, character.x, character.y, character.width, character.height);
     cursor.closePath();
+    cursor.restore();
     cursor.imageSmoothingEnabled = false;
     if(Game.grid == true){
         //show position
@@ -76,6 +81,42 @@ var fps = () => {
     Game.lastFrame = performance.now();
 }
 
+var spawn = (asset, x, y, direction) => {
+    if (!asset.visible || asset.instance > 0){
+        const instatime = Math.floor((performance.now() - Game.firstFrame));
+        if (asset.instance == 0){
+            Game.assets[asset.name] = asset;
+            Game.collisionGraph[asset.name] = true;
+
+            Game.assetcount = Game.assetcount+1;
+            asset.visible = true;
+            asset.showimage(asset.link, asset.instance);
+        } else {
+            Game.assets[asset.name+"_"+instatime] = asset;
+            Game.assets[asset.name+"_"+instatime].x = x;
+            Game.assets[asset.name+"_"+instatime].y = y;
+            Game.assets[asset.name+"_"+instatime].direction = direction;
+            Game.assets[asset.name+"_"+instatime].instance = instatime;
+            Game.collisionGraph[asset.name+"_"+instatime] = true;
+            
+            Game.assetcount = Game.assetcount+1;
+            Game.assets[asset.name+"_"+instatime].visible = true;
+            Game.assets[asset.name+"_"+instatime].showimage(asset.link, asset.name+"_"+instatime);
+        }
+        
+    }
+}
+
+var despawn = (asset) => {
+    if (asset.visible || asset.instance > 0){
+        delete Game.assets[asset];
+        delete Game.collisionGraph[asset];
+
+        Game.assetcount = Game.assetcount-1;
+        asset.visible = false;
+    }
+}
+
 class Character {
     constructor (data){
         this.name = data.name;
@@ -93,53 +134,11 @@ class Character {
         this.link = data.link;
         this.image = new Image();
         this.input = data.input;
+        this.custom = data.custom;
         if (data.visible && !Game.play){
             Game.assets[this.name] = this;
-            Game.collisionGraph[this.name] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
+            Game.collisionGraph[this.name] = true;
             Game.assetcount = Game.assetcount+1;
-        }
-        this.spawn = (x, y, direction) => {
-            if (!this.visible || this.instance > 0){
-                if (this.instance == 0){
-                    Game.assets[this.name] = this;
-                    Game.collisionGraph[this.name] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
-        
-                    Game.assetcount = Game.assetcount+1;
-                    this.visible = true;
-                    this.showimage(this.link, this.instance);
-                } else {
-                    this.x = x;
-                    this.y = y;
-                    this.direction = direction;
-                    const instatime = Math.floor((performance.now() - Game.firstFrame));
-                    Game.assets[this.name+"_"+instatime] = this;
-                    Game.assets[this.name+"_"+instatime].instance = instatime;
-                    Game.collisionGraph[this.name+"_"+instatime] = {'n':this.name,'x':this.x, 'y':this.y, 'h':this.height, 'w':this.width};
-                    
-                    Game.assetcount = Game.assetcount+1;
-                    this.visible = true;
-                    this.showimage(this.link, instatime);
-                }
-                
-            }
-        }
-        this.despawn = (asset) => {
-            if (this.visible || this.instance > 0){
-                if (this.instance == 0){
-                    delete Game.assets[this.name];
-                    delete Game.collisionGraph[this.name];
-        
-                    Game.assetcount = Game.assetcount-1;
-                    this.visible = false;
-                } else {
-                    delete Game.assets[asset];
-                    delete Game.collisionGraph[asset];
-                    
-                    Game.assetcount = Game.assetcount-1;
-                    this.visible = false;
-                }
-                
-            }
         }
         this.getvectorcomp = (direction, magnitude) => {
             //choose quadrant based on the canvas position style
@@ -171,13 +170,11 @@ class Character {
             var magnitude = Math.sqrt(((x1+x2)**2) + ((y1+y2)**2));
             return {direction, magnitude};
         }
-        this.move = (direction, speed) => {
+        this.move = (speed) => {
             if (speed > this.minspeed && speed < this.maxspeed){
-                this.direction = direction;
                 this.speed = speed;
             }
-            //get velocity vector components
-            var vector = this.getvectorcomp(direction, this.speed);
+            var vector = this.getvectorcomp(this.direction, this.speed);
             this.x = this.x + vector.x;
             this.y = this.y + vector.y;
         }
@@ -192,7 +189,7 @@ class Character {
         this.rotate = (angspeed) => {
             if ((this.direction+angspeed) < 0 ) {
                 this.direction = 360 + (this.direction+angspeed);
-            } else if (this.direction+angspeed > 360){
+            } else if ((this.direction+angspeed) > 360){
                 this.direction = (this.direction+angspeed) - 360;
             } else {
                 this.direction = this.direction + angspeed;
@@ -223,13 +220,13 @@ class Character {
                 }
             }   
         }
-        this.scale = (w, h) => {
+        this.scale = (xw, yh) => {
             //reposition
-            this.x = this.x - (((this.width * w)-this.width)/2);
-            this.y = this.y - (((this.height * h)-this.height)/2);
+            this.x = this.x - (((this.width * xw)-this.width)/2);
+            this.y = this.y - (((this.height * yh)-this.height)/2);
             //resize
-            this.width = this.width * w;
-            this.height = this.height * h;
+            this.width = this.width * xw;
+            this.height = this.height * yh;
         }
         this.scaleTo = (width, height, speed) => {
             if (this.width < (width+1) && this.width > (width-1) && this.height < (height+1) && this.height > (height-1)){
@@ -238,8 +235,8 @@ class Character {
                 this.scale((1+(speed/width)), (1+(speed/height)));
             }
         }
-        this.showimage = (link, instance) => {
-            if (link != this.link || (this.instance == instance && instance > 0)){
+        this.showimage = (link, asset) => {
+            if (link != this.link && this.instance == 0){
                 this.image.src = link;
                 this.image.onload = () => {
                     console.log(this.name+" loaded "+link);
@@ -248,10 +245,19 @@ class Character {
                 this.image.onerror = () => {
                     alert(this.name+" failed to get "+link);
                 }
+            } else if (this.instance > 0){
+                Game.assets[asset].image.src = link;
+                Game.assets[asset].image.onload = () => {
+                    console.log(asset+" loaded "+link);
+                }
+                Game.assets[asset].image.onerror = () => {
+                    alert(asset+" failed to get "+link);
+                }
             }
         }
-        this.animate = (linklist) => {
-
+        this.animate = (linklist, asset) => {
+            var index = Math.floor((performance.now() - Game.firstFrame)/100) % linklist.length;
+            this.showimage(linklist[index], asset);
         }
         this.playsound = (loop, link) => {
             if (Game.dj[link] != this.name+"_"+this.instance){
@@ -263,6 +269,11 @@ class Character {
                     Game.dj[link] = null;
                     if (loop) {
                         this.playsound(loop, link);
+                    }
+                }
+                audio.ontimeupdate = () => {
+                    if (!Game.play){
+                        audio.pause();
                     }
                 }
                 audio.onerror = () => {
@@ -330,19 +341,6 @@ window.onload = () => {
     }
 };
 
-window.onkeydown = input = (e) => {
-
-    Game.key[e.code] = e;
-
-};
-
-window.onkeyup = input = (e) => {
-
-    Game.key[e.code] = null;
-    delete Game.key[e.code];
-
-};
-
 window.onmousemove = input = (e) => {
 
     const canvas = document.getElementById('screen');
@@ -351,11 +349,28 @@ window.onmousemove = input = (e) => {
         x: ((e.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
         y: ((e.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
     };
+}
+
+window.onmousedown = input = (e) => {
+
+    Game.click = Game.mousePosition;
 
 }
 
-window.onclick = input = (e) => {
+window.onmouseup = input = (e) => {
 
-    Game.click[e.type] = e;
+    Game.click = false;
 
 }
+
+window.onkeydown = input = (e) => {
+
+    Game.key[e.code] = e;
+
+};
+
+window.onkeyup = input = (e) => {
+
+    delete Game.key[e.code];
+
+};
